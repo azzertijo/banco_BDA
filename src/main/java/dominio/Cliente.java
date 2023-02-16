@@ -44,8 +44,16 @@ public class Cliente {
         this.contraseña = contraseña;
         this.idDireccion = idDireccion;
     }
+
+    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contraseña) {
+        this.nombre = nombre;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
+    }
  
-    
     public Integer getId() {
         return id;
     }

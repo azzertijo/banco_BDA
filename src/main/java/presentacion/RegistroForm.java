@@ -4,19 +4,102 @@
  */
 package presentacion;
 
+import dominio.Cliente;
+import dominio.Domicilio;
+import excepciones.PersistenciaException;
+import interfaces.IClientesDAO;
+import interfaces.IDomicilioDAO;
+import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author JORGE
  */
 public class RegistroForm extends javax.swing.JFrame {
-
+private final IClientesDAO clientesDAO;
+private final IDomicilioDAO domicilioDAO;
     /**
      * Creates new form RegistroForm
      */
-    public RegistroForm() {
+    public RegistroForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO) {
+        this.clientesDAO = clientesDAO;
+        this.domicilioDAO = domicilioDAO;
         initComponents();
     }
 
+    public void validarFechaNac(String txt){
+        String patron = "\"^\\d{4}([\\-/.])(0?[1-9]|1[1-2])\\1(3[01]|[12][0-9]|0?[1-9])$\"";
+        Pattern pattern  = Pattern.compile(patron);
+        Matcher matcher = pattern.matcher(txt);
+   
+        if(!matcher.matches()){
+             JOptionPane.showMessageDialog(this, "Ingrese una fecha con el formato 'yyyy-mm-dd'");
+        }
+    }
+    
+    private Cliente extraerDatosCliente(){
+         java.sql.Date fechaNacimiento;
+        String nombre = this.txtfNombres.getText();
+        String apellidoPaterno = this.txtfApellidoPat.getText();
+        String apellidoMaterno = this.txtfApellidoMat.getText();
+         if(!this.txtfFechaNac.getText().matches("\"^\\d{4}([\\-/.])(0?[1-9]|1[1-2])\\1(3[01]|[12][0-9]|0?[1-9])$\"")){
+            JOptionPane.showMessageDialog(null, "Formato de fecha invalido ingrese una fecha 'yyyy-mm-dd'");
+        }  fechaNacimiento = java.sql.Date.valueOf(this.txtfFechaNac.getText());
+        String usuario = this.txtfUser.getText();
+        String contrasenia = this.txtContra.getText();
+        Cliente cliente = new Cliente(nombre,apellidoPaterno,apellidoMaterno,fechaNacimiento,usuario,contrasenia);
+        return cliente;
+    }
+    
+    private Domicilio extraerDatosDomicilio(){
+        String calle = this.txtfCalle.getText();
+        String colonia = this.txtfColonia.getText();
+        String numCasa = this.txtfNumCasa.getText();
+        Domicilio domicilio = new Domicilio(calle,colonia,numCasa);
+        return domicilio;
+    }
+    
+    private void mostrarMensajeClienteGuardado(Cliente clienteGuardado){
+        JOptionPane.showMessageDialog(this, "Se agregó el cliente: " + clienteGuardado.getNombre(),"Información",JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void mostrarMensajeErrorAlGuardar(){
+        JOptionPane.showMessageDialog(this, "No fue posible agregar al cliente","Error",JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private void limpiarCampos(){
+        this.txtContra.setText("");
+        this.txtfApellidoMat.setText("");
+        this.txtfApellidoPat.setText("");
+        this.txtfCalle.setText("");
+        this.txtfColonia.setText("");
+        this.txtfFechaNac.setText("");
+        this.txtfNombres.setText("");
+        this.txtfNumCasa.setText("");
+        this.txtfUser.setText("");
+    }
+    
+    
+    
+    private void guardar() throws PersistenciaException{
+        //SACAR DATOS----VALIDARLOS ---- ENVIAR A DAO PARA GUARDAR
+        try{
+        Domicilio domicilio = this.extraerDatosDomicilio();
+        Cliente cliente = this.extraerDatosCliente();
+        this.domicilioDAO.insertar(domicilio);
+        cliente.setIdDireccion(domicilio.getId());
+        this.clientesDAO.insertar(cliente);
+        this.mostrarMensajeClienteGuardado(cliente);
+        this.limpiarCampos();
+        }catch(PersistenciaException ex){
+           this.mostrarMensajeErrorAlGuardar();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,8 +119,7 @@ public class RegistroForm extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        javax.swing.JTextField txtfUsuario = new javax.swing.JTextField();
-        txtfContra = new javax.swing.JTextField();
+        txtContra = new javax.swing.JTextField();
         txtfNombres = new javax.swing.JTextField();
         txtfApellidoPat = new javax.swing.JTextField();
         txtfApellidoMat = new javax.swing.JTextField();
@@ -46,6 +128,7 @@ public class RegistroForm extends javax.swing.JFrame {
         txtfNumCasa = new javax.swing.JTextField();
         txtfColonia = new javax.swing.JTextField();
         btnAcceder = new javax.swing.JButton();
+        txtfUser = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registro");
@@ -79,9 +162,27 @@ public class RegistroForm extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         jLabel9.setText("Num. casa");
 
-        txtfFechaNac.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtfFechaNacActionPerformed(evt);
+        txtContra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContraKeyTyped(evt);
+            }
+        });
+
+        txtfNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfNombresKeyTyped(evt);
+            }
+        });
+
+        txtfApellidoPat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfApellidoPatKeyTyped(evt);
+            }
+        });
+
+        txtfApellidoMat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfApellidoMatKeyTyped(evt);
             }
         });
 
@@ -92,6 +193,12 @@ public class RegistroForm extends javax.swing.JFrame {
         btnAcceder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAccederActionPerformed(evt);
+            }
+        });
+
+        txtfUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfUserKeyTyped(evt);
             }
         });
 
@@ -118,12 +225,12 @@ public class RegistroForm extends javax.swing.JFrame {
                                 .addComponent(txtfApellidoMat))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtfUser, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtfContra, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -152,8 +259,8 @@ public class RegistroForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(txtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtfContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtfUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -197,15 +304,44 @@ public class RegistroForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccederActionPerformed
-        // TODO add your handling code here:
+        if (this.txtContra.getText().isEmpty() || this.txtfApellidoMat.getText().isEmpty() || this.txtfApellidoPat.getText().isEmpty() || this.txtfCalle.getText().isEmpty() || this.txtfColonia.getText().isEmpty() 
+                || this.txtfFechaNac.getText().isEmpty()  || this.txtfNombres.getText().isEmpty() || this.txtfNumCasa.getText().isEmpty() || this.txtfUser.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos tienen que ser llenados");
+        } else {
+            try {
+                this.guardar();
+            } catch (PersistenciaException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo ingresar el cliente");
+            }
+        }
     }//GEN-LAST:event_btnAccederActionPerformed
 
-    private void txtfFechaNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfFechaNacActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtfFechaNacActionPerformed
+    private void txtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfNombresKeyTyped
+        char c = evt.getKeyChar();
+        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfNombres.getText().length()>=50)evt.consume();  
+    }//GEN-LAST:event_txtfNombresKeyTyped
+
+    private void txtfApellidoPatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoPatKeyTyped
+        char c = evt.getKeyChar();
+        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoPat.getText().length()>=50)evt.consume();  
+    }//GEN-LAST:event_txtfApellidoPatKeyTyped
+
+    private void txtfApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoMatKeyTyped
+        char c = evt.getKeyChar();
+        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoMat.getText().length()>=50)evt.consume();  
+    }//GEN-LAST:event_txtfApellidoMatKeyTyped
+
+    private void txtfUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfUserKeyTyped
+         if(this.txtfUser.getText().length()>=20)evt.consume();
+    }//GEN-LAST:event_txtfUserKeyTyped
+
+    private void txtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyTyped
+        if(this.txtContra.getText().length()>=16)evt.consume();
+    }//GEN-LAST:event_txtContraKeyTyped
 
     /**
      * @param args the command line arguments
@@ -224,13 +360,14 @@ public class RegistroForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtContra;
     private javax.swing.JTextField txtfApellidoMat;
     private javax.swing.JTextField txtfApellidoPat;
     private javax.swing.JTextField txtfCalle;
     private javax.swing.JTextField txtfColonia;
-    private javax.swing.JTextField txtfContra;
     private javax.swing.JTextField txtfFechaNac;
     private javax.swing.JTextField txtfNombres;
     private javax.swing.JTextField txtfNumCasa;
+    private javax.swing.JTextField txtfUser;
     // End of variables declaration//GEN-END:variables
 }
