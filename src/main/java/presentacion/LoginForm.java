@@ -26,21 +26,106 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        txtfUsuario = new javax.swing.JTextField();
+        pwrdContra = new javax.swing.JPasswordField();
+        btnAcceder = new javax.swing.JButton();
+        btnRegistrarse = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
+        lblContra = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Banco BDA");
+
+        jPanel1.setBackground(new java.awt.Color(231, 253, 218));
+
+        txtfUsuario.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        txtfUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfUsuarioActionPerformed(evt);
+            }
+        });
+
+        pwrdContra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnAcceder.setBackground(new java.awt.Color(81, 183, 145));
+        btnAcceder.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btnAcceder.setForeground(new java.awt.Color(255, 255, 255));
+        btnAcceder.setText("Acceder");
+
+        btnRegistrarse.setBackground(new java.awt.Color(109, 150, 137));
+        btnRegistrarse.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btnRegistrarse.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarse.setText("Registrarse");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Recurso 2.png"))); // NOI18N
+
+        lblUsuario.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lblUsuario.setText("Usuario");
+
+        lblContra.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        lblContra.setText("Contraseña");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblContra)
+                    .addComponent(lblUsuario)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(pwrdContra, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRegistrarse))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(15, 15, 15)))))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(lblUsuario)
+                .addGap(3, 3, 3)
+                .addComponent(txtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblContra)
+                .addGap(0, 0, 0)
+                .addComponent(pwrdContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAcceder)
+                    .addComponent(btnRegistrarse))
+                .addGap(35, 35, 35))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtfUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +163,13 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAcceder;
+    private javax.swing.JButton btnRegistrarse;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblContra;
+    private javax.swing.JLabel lblUsuario;
+    private javax.swing.JPasswordField pwrdContra;
+    private javax.swing.JTextField txtfUsuario;
     // End of variables declaration//GEN-END:variables
 }
