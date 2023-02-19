@@ -133,6 +133,7 @@ private final IDomicilioDAO domicilioDAO;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registro");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(236, 250, 239));
 

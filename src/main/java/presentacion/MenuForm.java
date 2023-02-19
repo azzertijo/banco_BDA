@@ -5,7 +5,9 @@
 package presentacion;
 
 import dominio.Cliente;
+import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 
 /**
  *
@@ -13,14 +15,17 @@ import interfaces.IClientesDAO;
  */
 public class MenuForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
+private ICuentasDAO cuentasDAO;
 private final Cliente cliente;
     /**
      * Creates new form MenuForm
      */
-    public MenuForm(IClientesDAO clientesDAO, Cliente cliente) {
+    public MenuForm(IClientesDAO clientesDAO,  Cliente cliente) {
         this.clientesDAO = clientesDAO;
         this.cliente = cliente;
+        
         initComponents();
+        this.txtNombre.setText(cliente.getNombre() +" "+ cliente.getApellido_paterno() + " " + cliente.getApellido_materno());
     }
 
     /**
@@ -32,25 +37,125 @@ private final Cliente cliente;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JLabel();
+        btnSaldo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        btnCuentas = new javax.swing.JMenu();
+        btnHistorial = new javax.swing.JMenu();
+        btnTransfer = new javax.swing.JMenu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(231, 253, 218));
+
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Hola, ");
+
+        txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnSaldo.setText("Agregar");
+
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Agregar saldo a cuenta");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombre)))
+                .addContainerGap(67, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtNombre))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(138, Short.MAX_VALUE))
+        );
+
+        jMenuBar1.setBorderPainted(false);
+
+        btnCuentas.setText("Cuentas");
+        btnCuentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCuentasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(btnCuentas);
+
+        btnHistorial.setText("Historial");
+        jMenuBar1.add(btnHistorial);
+
+        btnTransfer.setText("Transferencia");
+        btnTransfer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTransferMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(btnTransfer);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTransferMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransferMouseClicked
+        TransferenciasForm transferencias = new TransferenciasForm(clientesDAO,cliente);
+        this.setVisible(false);
+        transferencias.setVisible(true);
+    }//GEN-LAST:event_btnTransferMouseClicked
 
+    private void btnCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCuentasMouseClicked
+//       CuentasDAO cuentasDAO;
+       CuentasForm cuentas = new CuentasForm(cuentasDAO = new CuentasDAO(clientesDAO.getGENERADOR_CONEXIONES()),cliente);
+       this.setVisible(false);  
+       cuentas.setVisible(true);
+    }//GEN-LAST:event_btnCuentasMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu btnCuentas;
+    private javax.swing.JMenu btnHistorial;
+    private javax.swing.JButton btnSaldo;
+    private javax.swing.JMenu btnTransfer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel txtNombre;
     // End of variables declaration//GEN-END:variables
 }

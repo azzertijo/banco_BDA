@@ -18,6 +18,10 @@ public class ClientesDAO implements IClientesDAO{
     public ClientesDAO(IConexionBD generadorConexiones){
         this.GENERADOR_CONEXIONES = generadorConexiones;
     }
+
+    public IConexionBD getGENERADOR_CONEXIONES() {
+        return GENERADOR_CONEXIONES;
+    }
     
     @Override
     public Cliente insertar(Cliente cliente) throws PersistenciaException {

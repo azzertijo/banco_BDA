@@ -13,4 +13,5 @@ public interface IClientesDAO {
     
     Cliente consultarCuenta(Cliente cliente);
     
+    IConexionBD getGENERADOR_CONEXIONES();
 }
