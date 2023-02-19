@@ -11,4 +11,6 @@ public interface IClientesDAO {
     
     Cliente insertar(Cliente cliente) throws PersistenciaException;
     
+    Cliente consultarCuenta(Cliente cliente);
+    
 }

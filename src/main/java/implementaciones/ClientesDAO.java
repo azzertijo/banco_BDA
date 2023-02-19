@@ -32,7 +32,7 @@ public class ClientesDAO implements IClientesDAO{
             comando.setString(3,cliente.getApellido_materno());
             comando.setDate(4, cliente.getFecha_nacimiento());
             comando.setString(5, cliente.getUsuario());
-            comando.setString(6, cliente.getContraseña());
+            comando.setString(6, cliente.getContrasenia());
             comando.setInt(7, cliente.getIdDireccion());
             comando.executeUpdate();
             ResultSet llavesGeneradas = comando.getGeneratedKeys();
@@ -47,5 +47,42 @@ public class ClientesDAO implements IClientesDAO{
             throw new PersistenciaException("No fue posible registrar al cliente");
         }          
     }
+
+    @Override
+    public Cliente consultarCuenta(Cliente cliente) {
+        Cliente clienteLog = null;
+        String codigoSQL = "SELECT id,nombre,apellido_paterno,apellido_materno,fecha_nacimiento,usuario,contrasenia,id_domicilio FROM CLIENTES WHERE usuario=? AND contrasenia= ?";
+    
+        try(
+            Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);  
+            )   
+            
+        {
+            comando.setString(1, cliente.getUsuario());
+            comando.setString(2, cliente.getContrasenia());
+
+            ResultSet resultado = comando.executeQuery();
+
+            
+        if(resultado.next()){
+            Integer id = resultado.getInt("id");
+            String nombre = resultado.getString("nombre");
+            String apellidoPaterno = resultado.getString("apellido_paterno");
+            String apellidoMaterno = resultado.getString("apellido_materno");
+            Date fecha_nac = resultado.getDate("fecha_nacimiento");
+            String usuarioLog = resultado.getString("usuario");
+            String contrasenia = resultado.getString("contrasenia");
+            Integer idDireccion = resultado.getInt("id_domicilio");
+            clienteLog = new Cliente(id,nombre,apellidoPaterno,apellidoMaterno,fecha_nac,usuarioLog,contrasenia,idDireccion);
+        }
+        
+        return clienteLog;
+        }catch(SQLException ex){
+
+            return null;
+        }
+    }
+   
     
 }

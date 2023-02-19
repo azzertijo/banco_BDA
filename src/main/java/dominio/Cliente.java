@@ -19,39 +19,39 @@ public class Cliente {
     private String apellido_materno;
     private Date fecha_nacimiento;
     private String usuario;
-    private String contraseña;
+    private String contrasenia;
     private Integer idDireccion;
     
     public Cliente(){};
 
-    public Cliente(Integer id, String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contraseña, Integer idDireccion) {
+    public Cliente(Integer id, String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contrasenia, Integer idDireccion) {
         this.id = id;
         this.nombre = nombre;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
         this.fecha_nacimiento = fecha_nacimiento;
         this.usuario = usuario;
-        this.contraseña = contraseña;
+        this.contrasenia = contrasenia;
         this.idDireccion = idDireccion;
     }
 
-    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contraseña, Integer idDireccion) {
+    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contrasenia, Integer idDireccion) {
         this.nombre = nombre;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
         this.fecha_nacimiento = fecha_nacimiento;
         this.usuario = usuario;
-        this.contraseña = contraseña;
+        this.contrasenia = contrasenia;
         this.idDireccion = idDireccion;
     }
 
-    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contraseña) {
+    public Cliente(String nombre, String apellido_paterno, String apellido_materno, Date fecha_nacimiento, String usuario, String contrasenia) {
         this.nombre = nombre;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
         this.fecha_nacimiento = fecha_nacimiento;
         this.usuario = usuario;
-        this.contraseña = contraseña;
+        this.contrasenia = contrasenia;
     }
  
     public Integer getId() {
@@ -102,12 +102,12 @@ public class Cliente {
         this.usuario = usuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public Date getFecha_nacimiento() {
@@ -142,7 +142,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", fecha_nacimiento=" + fecha_nacimiento + ", usuario=" + usuario + ", contrase\u00f1a=" + contraseña + ", idDireccion=" + idDireccion + '}';
+        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", fecha_nacimiento=" + fecha_nacimiento + ", usuario=" + usuario + ", contrasenia=" + contrasenia + ", idDireccion=" + idDireccion + '}';
     }
 
 
