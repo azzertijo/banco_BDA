@@ -13,5 +13,7 @@ public interface IClientesDAO {
     
     Cliente consultarCuenta(Cliente cliente);
     
+    Cliente actualizar(Cliente cliente) throws PersistenciaException;
+    
     IConexionBD getGENERADOR_CONEXIONES();
 }

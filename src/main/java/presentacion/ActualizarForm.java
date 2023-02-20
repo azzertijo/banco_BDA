@@ -9,41 +9,28 @@ import dominio.Domicilio;
 import excepciones.PersistenciaException;
 import interfaces.IClientesDAO;
 import interfaces.IDomicilioDAO;
-import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author JORGE
  */
-public class RegistroForm extends javax.swing.JFrame {
+public class ActualizarForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final IDomicilioDAO domicilioDAO;
+private final Cliente cliente;
     /**
-     * Creates new form RegistroForm
+     * Creates new form ActualizarForm
      */
-    public RegistroForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO) {
-        this.clientesDAO = clientesDAO;
-        this.domicilioDAO = domicilioDAO;
+    public ActualizarForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO, Cliente cliente) {
+       this.clientesDAO=clientesDAO;
+       this.domicilioDAO=domicilioDAO;
+       this.cliente=cliente;
         initComponents();
     }
 
-    public void validarFechaNac(String txt){
-        String patron = "\"^\\d{4}([\\-/.])(0?[1-9]|1[1-2])\\1(3[01]|[12][0-9]|0?[1-9])$\"";
-        Pattern pattern  = Pattern.compile(patron);
-        Matcher matcher = pattern.matcher(txt);
-   
-        if(!matcher.matches()){
-             JOptionPane.showMessageDialog(this, "Ingrese una fecha con el formato 'yyyy-mm-dd'");
-        }
-    }
-    
     private Cliente extraerDatosCliente(){
-         java.sql.Date fechaNacimiento;
+        java.sql.Date fechaNacimiento;
         String nombre = this.txtfNombres.getText();
         String apellidoPaterno = this.txtfApellidoPat.getText();
         String apellidoMaterno = this.txtfApellidoMat.getText();
@@ -72,22 +59,8 @@ private final IDomicilioDAO domicilioDAO;
         JOptionPane.showMessageDialog(this, "No fue posible agregar al cliente","Error",JOptionPane.ERROR_MESSAGE);
     }
     
-    private void limpiarCampos(){
-        this.txtContra.setText("");
-        this.txtfApellidoMat.setText("");
-        this.txtfApellidoPat.setText("");
-        this.txtfCalle.setText("");
-        this.txtfColonia.setText("");
-        this.txtfFechaNac.setText("");
-        this.txtfNombres.setText("");
-        this.txtfNumCasa.setText("");
-        this.txtfUser.setText("");
-    }
     
-    
-    
-    private void guardar() throws PersistenciaException{
-        //SACAR DATOS----VALIDARLOS ---- ENVIAR A DAO PARA GUARDAR
+    private void actualizar() throws PersistenciaException{
         try{
         Domicilio domicilio = this.extraerDatosDomicilio();
         Cliente cliente = this.extraerDatosCliente();
@@ -95,7 +68,6 @@ private final IDomicilioDAO domicilioDAO;
         cliente.setIdDireccion(domicilio.getId());
         this.clientesDAO.insertar(cliente);
         this.mostrarMensajeClienteGuardado(cliente);
-        this.limpiarCampos();
         }catch(PersistenciaException ex){
            this.mostrarMensajeErrorAlGuardar();
         }
@@ -132,8 +104,6 @@ private final IDomicilioDAO domicilioDAO;
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Registro");
-        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(236, 250, 239));
 
@@ -191,7 +161,7 @@ private final IDomicilioDAO domicilioDAO;
         btnAcceder.setBackground(new java.awt.Color(81, 183, 145));
         btnAcceder.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         btnAcceder.setForeground(new java.awt.Color(255, 255, 255));
-        btnAcceder.setText("Registrar");
+        btnAcceder.setText("Actualizar");
         btnAcceder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAccederActionPerformed(evt);
@@ -264,7 +234,7 @@ private final IDomicilioDAO domicilioDAO;
                         .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(58, 58, 58)
                         .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,55 +290,59 @@ private final IDomicilioDAO domicilioDAO;
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyTyped
+       this.txtContra.setText(cliente.getContrasenia());
+        if(this.txtContra.getText().length()>=16)evt.consume();
+    }//GEN-LAST:event_txtContraKeyTyped
+
+    private void txtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfNombresKeyTyped
+        this.txtfNombres.setText(cliente.getNombre());
+        char c = evt.getKeyChar();
+        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfNombres.getText().length()>=50)evt.consume();
+    }//GEN-LAST:event_txtfNombresKeyTyped
+
+    private void txtfApellidoPatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoPatKeyTyped
+        this.txtfApellidoPat.setText(cliente.getApellido_paterno());
+        char c = evt.getKeyChar();
+        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoPat.getText().length()>=50)evt.consume();
+    }//GEN-LAST:event_txtfApellidoPatKeyTyped
+
+    private void txtfApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoMatKeyTyped
+       this.txtfApellidoMat.setText(cliente.getApellido_materno());
+        char c = evt.getKeyChar();
+        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoMat.getText().length()>=50)evt.consume();
+    }//GEN-LAST:event_txtfApellidoMatKeyTyped
+
     private void btnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccederActionPerformed
-        if (this.txtContra.getText().isEmpty() || this.txtfApellidoMat.getText().isEmpty() || this.txtfApellidoPat.getText().isEmpty() || this.txtfCalle.getText().isEmpty() || this.txtfColonia.getText().isEmpty() 
-                || this.txtfFechaNac.getText().isEmpty()  || this.txtfNombres.getText().isEmpty() || this.txtfNumCasa.getText().isEmpty() || this.txtfUser.getText().isEmpty()) {
+        if (this.txtContra.getText().isEmpty() || this.txtfApellidoMat.getText().isEmpty() || this.txtfApellidoPat.getText().isEmpty() || this.txtfCalle.getText().isEmpty() || this.txtfColonia.getText().isEmpty()
+            || this.txtfFechaNac.getText().isEmpty()  || this.txtfNombres.getText().isEmpty() || this.txtfNumCasa.getText().isEmpty() || this.txtfUser.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Todos los campos tienen que ser llenados");
         } else {
             try {
-                this.guardar();
+                this.actualizar();
             } catch (PersistenciaException ex) {
                 JOptionPane.showMessageDialog(null, "No se pudo ingresar el cliente");
             }
         }
     }//GEN-LAST:event_btnAccederActionPerformed
 
-    private void txtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfNombresKeyTyped
-        char c = evt.getKeyChar();
-        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfNombres.getText().length()>=50)evt.consume();  
-    }//GEN-LAST:event_txtfNombresKeyTyped
-
-    private void txtfApellidoPatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoPatKeyTyped
-        char c = evt.getKeyChar();
-        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoPat.getText().length()>=50)evt.consume();  
-    }//GEN-LAST:event_txtfApellidoPatKeyTyped
-
-    private void txtfApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoMatKeyTyped
-        char c = evt.getKeyChar();
-        if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoMat.getText().length()>=50)evt.consume();  
-    }//GEN-LAST:event_txtfApellidoMatKeyTyped
-
     private void txtfUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfUserKeyTyped
-         if(this.txtfUser.getText().length()>=20)evt.consume();
+        this.txtfUser.setText(cliente.getUsuario());
+        if(this.txtfUser.getText().length()>=20)evt.consume();
     }//GEN-LAST:event_txtfUserKeyTyped
 
-    private void txtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyTyped
-        if(this.txtContra.getText().length()>=16)evt.consume();
-    }//GEN-LAST:event_txtContraKeyTyped
-
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       LoginForm login = new LoginForm(clientesDAO);
+        MenuForm menu = new MenuForm(clientesDAO,cliente);
         this.setVisible(false);
-        login.setVisible(true);
+        menu.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcceder;

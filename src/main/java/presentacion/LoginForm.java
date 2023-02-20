@@ -21,14 +21,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class LoginForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
-private final IDomicilioDAO domicilioDAO;
+private  IDomicilioDAO domicilioDAO;
 private Cliente clienteLog;
     /**
      * Creates new form LoginForm
      */
-    public LoginForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO) {
+    public LoginForm(IClientesDAO clientesDAO) {
         this.clientesDAO = clientesDAO;
-        this.domicilioDAO=domicilioDAO;
         initComponents();
     }
 
@@ -74,6 +73,7 @@ private Cliente clienteLog;
         lblContra = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnAcceder1 = new javax.swing.JButton();
+        btnRetiroSinFolio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Banco BDA");
@@ -115,6 +115,16 @@ private Cliente clienteLog;
             }
         });
 
+        btnRetiroSinFolio.setBackground(new java.awt.Color(109, 150, 137));
+        btnRetiroSinFolio.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        btnRetiroSinFolio.setForeground(new java.awt.Color(255, 255, 255));
+        btnRetiroSinFolio.setText("Retiro sin folio");
+        btnRetiroSinFolio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetiroSinFolioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,14 +144,17 @@ private Cliente clienteLog;
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnRegistrarse)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
+                        .addGap(116, 116, 116)
+                        .addComponent(btnRetiroSinFolio))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
                         .addComponent(jLabel1)))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsuario)
@@ -155,18 +168,20 @@ private Cliente clienteLog;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrarse)
                     .addComponent(btnAcceder1))
-                .addGap(90, 90, 90))
+                .addGap(18, 18, 18)
+                .addComponent(btnRetiroSinFolio)
+                .addGap(100, 100, 100))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -189,6 +204,10 @@ private Cliente clienteLog;
         }
     }//GEN-LAST:event_btnAcceder1ActionPerformed
 
+    private void btnRetiroSinFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinFolioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRetiroSinFolioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -196,6 +215,7 @@ private Cliente clienteLog;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcceder1;
     private javax.swing.JButton btnRegistrarse;
+    private javax.swing.JButton btnRetiroSinFolio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblContra;

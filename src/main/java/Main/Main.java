@@ -24,8 +24,8 @@ public class Main {
 
         IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost/banco", "root", "adalgd123");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
-        IDomicilioDAO domicilioDAO = new DomicilioDAO(generadorConexiones);
-        new LoginForm(clientesDAO,domicilioDAO).setVisible(true);
+//        IDomicilioDAO domicilioDAO = new DomicilioDAO(generadorConexiones);
+        new LoginForm(clientesDAO).setVisible(true);
         
 
     }

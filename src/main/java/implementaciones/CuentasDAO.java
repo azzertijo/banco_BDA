@@ -40,13 +40,15 @@ public class CuentasDAO implements ICuentasDAO{
    
     @Override
     public Cuenta insertar(Cuenta cuenta) throws PersistenciaException {
-        String codigoSQL = "INSERT INTO CUENTAS(idCliente) VALUES=?";
+        String codigoSQL = "INSERT INTO CUENTAS(num_cuenta,saldo,id_clientes)  VALUES (?,?,?)";
         
         try(Connection conexion = GENERADOR_CONEXIONES.crearConexion();
                 PreparedStatement comando = conexion.prepareStatement(codigoSQL, Statement.RETURN_GENERATED_KEYS);
                 )
         {
-            comando.setInt(1, cuenta.getId_cliente());
+            comando.setInt(1, cuenta.getNum_cuenta());
+            comando.setDouble(2, cuenta.getSaldo());
+            comando.setInt(3, cuenta.getId_cliente());
             comando.executeUpdate();
             ResultSet llavesGeneradas = comando.getGeneratedKeys();
             
@@ -55,9 +57,10 @@ public class CuentasDAO implements ICuentasDAO{
                 cuenta.setId(llavePrimaria);
                 return cuenta;
             }
-            throw new PersistenciaException("Cuenta registrado pero ID no generado");
+            throw new PersistenciaException("Cuenta registrada pero ID no generada");
         }catch(SQLException e){
             System.err.println(e.getMessage());
+            System.out.println("Cosa123");
             throw new PersistenciaException("No fue posible registrar la cuenta");
         }
     }
@@ -65,7 +68,7 @@ public class CuentasDAO implements ICuentasDAO{
     @Override
     public List<Cuenta> consultar(ConfiguracionPaginado configPaginado, Cliente cliente) throws PersistenciaException {
         String codigoSQL = "SELECT num_cuenta,saldo,fecha_apertura "
-                + "FROM cuentas WHERE ? LIMIT ? OFFSET ?";
+                + "FROM cuentas WHERE id_clientes=? LIMIT ? OFFSET ?";
         List<Cuenta> listaCuentas = new LinkedList<>();
         try (
                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
@@ -88,6 +91,8 @@ public class CuentasDAO implements ICuentasDAO{
         } catch (SQLException ex) {
             throw new PersistenciaException("No fue posible consultar la lista de cuentas");
         }
+        
+        
     }
 
   

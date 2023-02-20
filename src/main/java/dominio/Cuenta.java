@@ -39,6 +39,19 @@ public class Cuenta {
         this.fecha_apertura = fecha_apertura;
     }
 
+    public Cuenta(Integer num_cuenta, Double saldo) {
+        this.num_cuenta = num_cuenta;
+        this.saldo = saldo;
+    }
+
+    public Cuenta(Integer num_cuenta, Double saldo, Integer id_cliente) {
+        this.num_cuenta = num_cuenta;
+        this.saldo = saldo;
+        this.id_cliente = id_cliente;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }
