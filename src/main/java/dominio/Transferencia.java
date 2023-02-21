@@ -13,10 +13,19 @@ public class Transferencia {
     private Integer cuenta_origen;
     private Integer cuenta_destino;
     
-
+/**
+ * Constructor vacio
+ */
     public Transferencia() {
     }
 
+    /**
+     * Constructor por defecto
+     * @param id Identificación de la transferencia
+     * @param monto Monto que se desea mandar
+     * @param cuenta_origen Cuenta de origen
+     * @param cuenta_destino Cuenta a la que se le va a mandar el dinero
+     */
     public Transferencia(Integer id, Double monto, Integer cuenta_origen, Integer cuenta_destino) {
         this.id = id;
         this.monto = monto;
@@ -24,6 +33,12 @@ public class Transferencia {
         this.cuenta_destino = cuenta_destino;
     }
 
+    /**
+     * Constructor sin identificación de la transferencia
+     * @param monto Monto que se desea mandar
+     * @param cuenta_origen Cuenta de origen
+     * @param cuenta_destino Cuenta a la que se le va a mandar el dinero
+     */
     public Transferencia(Double monto, Integer cuenta_origen, Integer cuenta_destino) {
         this.monto = monto;
         this.cuenta_origen = cuenta_origen;

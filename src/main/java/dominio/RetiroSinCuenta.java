@@ -6,18 +6,23 @@ package dominio;
 
 import java.util.Objects;
 
-/**
- *
- * @author JORGE
- */
 public class RetiroSinCuenta {
-    
-  private Integer id;
-  private Integer cuenta_origen;
-  private Double monto;
-  private Integer folio;
-  private Integer contrasenia;
 
+    private Integer id;
+    private Integer cuenta_origen;
+    private Double monto;
+    private Integer folio;
+    private Integer contrasenia;
+
+    /**
+     * Constructor por defecto
+     *
+     * @param id Identificación del retiro
+     * @param cuenta_origen Cuenta de origen
+     * @param monto monto que se desea mandar
+     * @param folio folio
+     * @param contrasenia contraseña del cliente
+     */
     public RetiroSinCuenta(Integer id, Integer cuenta_origen, Double monto, Integer folio, Integer contrasenia) {
         this.id = id;
         this.cuenta_origen = cuenta_origen;
@@ -26,6 +31,14 @@ public class RetiroSinCuenta {
         this.contrasenia = contrasenia;
     }
 
+    /**
+     * Constructor sin identificación
+     *
+     * @param cuenta_origen Cuenta de origen
+     * @param monto monto que se desea mandar
+     * @param folio folio
+     * @param contrasenia contraseña del cliente
+     */
     public RetiroSinCuenta(Integer cuenta_origen, Double monto, Integer folio, Integer contrasenia) {
         this.cuenta_origen = cuenta_origen;
         this.monto = monto;
@@ -33,13 +46,17 @@ public class RetiroSinCuenta {
         this.contrasenia = contrasenia;
     }
 
+    /**
+     * Constructor que inicializa solamente folio y contraseña
+     *
+     * @param folio folio
+     * @param contrasenia contraseña del cliente
+     */
     public RetiroSinCuenta(Integer folio, Integer contrasenia) {
         this.folio = folio;
         this.contrasenia = contrasenia;
     }
 
-    
-    
     public Integer getId() {
         return id;
     }
@@ -106,6 +123,5 @@ public class RetiroSinCuenta {
     public String toString() {
         return "RetiroSinCuenta{" + "id=" + id + ", cuenta_origen=" + cuenta_origen + ", monto=" + monto + ", folio=" + folio + ", contrasenia=" + contrasenia + '}';
     }
-  
-  
+
 }
