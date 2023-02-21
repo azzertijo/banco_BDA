@@ -17,12 +17,14 @@ import interfaces.ICuentasDAO;
 public class AgregarSaldoForm extends javax.swing.JFrame {
 private final ICuentasDAO cuentasDAO;
 private final IConexionBD conexion;
+private final Cliente cliente;
     /**
      * Creates new form AgregarSaldoForm
      */
     public AgregarSaldoForm(IConexionBD conexion, Cliente cliente, Cuenta cuenta) {
         this.conexion=conexion;
         this.cuentasDAO= new CuentasDAO(conexion);
+        this.cliente=cliente;
         initComponents();
     }
 
@@ -49,6 +51,7 @@ private final IConexionBD conexion;
         lblSaldo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtfSaldo = new javax.swing.JTextField();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +67,6 @@ private final IConexionBD conexion;
 
         lblSaldo.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         lblSaldo.setForeground(new java.awt.Color(0, 0, 0));
-        lblSaldo.setText("jLabel3");
 
         jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
@@ -73,6 +75,13 @@ private final IConexionBD conexion;
         txtfSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtfSaldoActionPerformed(evt);
+            }
+        });
+
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -96,6 +105,10 @@ private final IConexionBD conexion;
                         .addGap(18, 18, 18)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(90, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +125,9 @@ private final IConexionBD conexion;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtfSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(btnRegresar)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,9 +149,16 @@ private final IConexionBD conexion;
         // TODO add your handling code here:
     }//GEN-LAST:event_txtfSaldoActionPerformed
 
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        MenuForm menu = new MenuForm(conexion,cliente);
+        this.setVisible(false);
+        menu.setVisible(true);
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

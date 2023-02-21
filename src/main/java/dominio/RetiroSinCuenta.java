@@ -33,6 +33,13 @@ public class RetiroSinCuenta {
         this.contrasenia = contrasenia;
     }
 
+    public RetiroSinCuenta(Integer folio, Integer contrasenia) {
+        this.folio = folio;
+        this.contrasenia = contrasenia;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }

@@ -15,4 +15,6 @@ public interface IRetirosDAO {
     
     RetiroSinCuenta hacerRetiro(RetiroSinCuenta retiro) throws PersistenciaException;
     
+    RetiroSinCuenta generarFolio(RetiroSinCuenta retiro) throws PersistenciaException;
+    
 }

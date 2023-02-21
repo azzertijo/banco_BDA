@@ -251,6 +251,7 @@ private final IConexionBD conexion;
 //           
 //       }
         Cuenta cuenta = (Cuenta)cbxCuenta.getSelectedItem();
+        System.out.println(cuenta);
         if(cuenta != null){
             lblSaldo.setText(String.valueOf(cuenta.getSaldo()));
         }

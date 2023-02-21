@@ -14,6 +14,7 @@ import interfaces.IClientesDAO;
 import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -237,7 +238,8 @@ private Cuenta cuenta=null;
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-        // TODO add your handling code here:
+//        Random random = new Random();
+//        contrasenia= random.nextInt(9000000) + 10000000;
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     private void btnSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaldoActionPerformed
