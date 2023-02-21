@@ -30,7 +30,7 @@ private ConfiguracionPaginado configPaginado;
 
 
     /**
-     * Creates new form CuentasForm
+     * Constructor
      */
     public CuentasForm(IConexionBD conexion,Cliente cliente) {
         this.conexion=conexion;
@@ -43,7 +43,9 @@ private ConfiguracionPaginado configPaginado;
     } 
 
     
-    
+    /**
+     * Crea una tabla con las cuentas creadas
+     */
     public void cargarTablaCuentas(){
         try{
             List<Cuenta> listaCuentas = this.cuentasDAO.consultar(this.configPaginado,this.cliente);
@@ -58,11 +60,17 @@ private ConfiguracionPaginado configPaginado;
         }
     }
     
+    /**
+     * Avanza a la siguiente página
+     */
         private void avanzarPagina(){
         this.configPaginado.avanzarPagina();
         this.cargarTablaCuentas();
     }
     
+        /**
+         * Retrocede a la página anterior
+         */
     private void retrocederPagina(){
         this.configPaginado.retrocederPagina();
         this.cargarTablaCuentas();
@@ -251,23 +259,35 @@ private ConfiguracionPaginado configPaginado;
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * Botón que te lleva al formulario para crear tu cuenta
+ * @param evt 
+ */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         CrearCuentaForm crearCuenta = new CrearCuentaForm(conexion,cliente);
         crearCuenta.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
-
+/**
+ * Botón que regresa al usuario al menú principal
+ * @param evt 
+ */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
        MenuForm menu = new MenuForm(conexion,cliente);
        menu.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_btnRegresarActionPerformed
-
+/**
+ * Botón para avanzar a la siguiente página
+ * @param evt 
+ */
     private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
         avanzarPagina();
     }//GEN-LAST:event_btnAvanzarActionPerformed
-
+/**
+ * Botón para retroceder a la página anterior
+ * @param evt 
+ */
     private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed
         retrocederPagina();
     }//GEN-LAST:event_btnRetrocederActionPerformed
