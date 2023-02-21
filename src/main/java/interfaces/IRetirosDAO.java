@@ -4,13 +4,15 @@
  */
 package interfaces;
 
-import dominio.Domicilio;
+import dominio.RetiroSinCuenta;
 import excepciones.PersistenciaException;
 
-public interface IDomicilioDAO {
+/**
+ *
+ * @author JORGE
+ */
+public interface IRetirosDAO {
     
-    Domicilio insertar(Domicilio domicilio) throws PersistenciaException;
-    
-    Domicilio consultar(Integer idCliente) throws PersistenciaException;
+    RetiroSinCuenta hacerRetiro(RetiroSinCuenta retiro) throws PersistenciaException;
     
 }

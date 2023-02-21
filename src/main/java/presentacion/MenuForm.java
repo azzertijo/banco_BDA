@@ -5,9 +5,14 @@
 package presentacion;
 
 import dominio.Cliente;
+import dominio.Domicilio;
+import excepciones.PersistenciaException;
 import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
 import interfaces.ICuentasDAO;
+import interfaces.IDomicilioDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,14 +20,17 @@ import interfaces.ICuentasDAO;
  */
 public class MenuForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
-private ICuentasDAO cuentasDAO;
+private final ICuentasDAO cuentasDAO;
+private IDomicilioDAO domicilioDAO;
+private  Domicilio domicilio;
 private final Cliente cliente;
     /**
      * Creates new form MenuForm
      */
-    public MenuForm(IClientesDAO clientesDAO,  Cliente cliente) {
+    public MenuForm(IClientesDAO clientesDAO,  Cliente cliente, ICuentasDAO cuentasDAO) {
         this.clientesDAO = clientesDAO;
         this.cliente = cliente;
+        this.cuentasDAO=cuentasDAO;
         
         initComponents();
         this.txtNombre.setText(cliente.getNombre() +" "+ cliente.getApellido_paterno() + " " + cliente.getApellido_materno());
@@ -183,13 +191,20 @@ private final Cliente cliente;
     }//GEN-LAST:event_btnTransferMouseClicked
 
     private void btnCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCuentasMouseClicked
-       CuentasForm cuentas = new CuentasForm(cuentasDAO,cliente);
+       CuentasForm cuentas = new CuentasForm(cuentasDAO,clientesDAO,this.cliente);
        this.setVisible(false);  
        cuentas.setVisible(true);
     }//GEN-LAST:event_btnCuentasMouseClicked
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+    try {
+       ActualizarForm actualiza = new ActualizarForm(clientesDAO,domicilioDAO,cliente,domicilio,cuentasDAO);
+         this.setVisible(false);
+        actualiza.setVisible(true);
+    } catch (PersistenciaException ex) {
+        Logger.getLogger(MenuForm.class.getName()).log(Level.SEVERE, null, ex);
+    }
+       
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed

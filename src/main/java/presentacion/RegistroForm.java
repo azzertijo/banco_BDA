@@ -8,6 +8,7 @@ import dominio.Cliente;
 import dominio.Domicilio;
 import excepciones.PersistenciaException;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import java.sql.Date;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 public class RegistroForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final IDomicilioDAO domicilioDAO;
+private ICuentasDAO cuentasDAO;
     /**
      * Creates new form RegistroForm
      */
@@ -91,6 +93,7 @@ private final IDomicilioDAO domicilioDAO;
         try{
         Domicilio domicilio = this.extraerDatosDomicilio();
         Cliente cliente = this.extraerDatosCliente();
+        System.out.println(domicilio);
         this.domicilioDAO.insertar(domicilio);
         cliente.setIdDireccion(domicilio.getId());
         this.clientesDAO.insertar(cliente);
@@ -100,6 +103,7 @@ private final IDomicilioDAO domicilioDAO;
            this.mostrarMensajeErrorAlGuardar();
         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,6 +134,7 @@ private final IDomicilioDAO domicilioDAO;
         btnAcceder = new javax.swing.JButton();
         txtfUser = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registro");
@@ -214,6 +219,9 @@ private final IDomicilioDAO domicilioDAO;
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Comic Sans MS", 1, 12)); // NOI18N
+        jLabel10.setText("yyyy/mm/dd");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -223,10 +231,6 @@ private final IDomicilioDAO domicilioDAO;
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtfFechaNac))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
@@ -258,7 +262,13 @@ private final IDomicilioDAO domicilioDAO;
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtfApellidoPat))))
+                                .addComponent(txtfApellidoPat))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(txtfFechaNac)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(114, 114, 114)
                         .addComponent(btnAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -287,11 +297,13 @@ private final IDomicilioDAO domicilioDAO;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtfApellidoMat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtfFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                    .addComponent(txtfFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel9)
@@ -360,7 +372,7 @@ private final IDomicilioDAO domicilioDAO;
     }//GEN-LAST:event_txtContraKeyTyped
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       LoginForm login = new LoginForm(clientesDAO);
+       LoginForm login = new LoginForm(clientesDAO,domicilioDAO,cuentasDAO);
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -374,6 +386,7 @@ private final IDomicilioDAO domicilioDAO;
     private javax.swing.JButton btnAcceder;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

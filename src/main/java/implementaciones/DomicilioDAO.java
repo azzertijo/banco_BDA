@@ -45,5 +45,40 @@ private final IConexionBD GENERADOR_CONEXIONES;
             throw new PersistenciaException("No fue posible registrar el domicilio");
         }   
     }
+
+    @Override
+    public Domicilio consultar(Integer idDomicilio) throws PersistenciaException {
+        String codigoSQL = "SELECT calle,colonia,num_casa FROM DOMICILIO WHERE ID=?";
+        
+        try(
+            Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            )
+        
+        {
+            comando.setInt(1,idDomicilio);
+            ResultSet resultado = comando.executeQuery();
+
+        Domicilio domicilio = null;
+        if(resultado.next()){
+           
+            String calle = resultado.getString("calle");
+            String colonia = resultado.getString("colonia");
+            String num_casa = resultado.getString("num_casa");
+            domicilio = new Domicilio(calle,colonia,num_casa);
+//            cliente.setNombre(nombre);
+//            cliente.setApellido_paterno(apellido_paterno);
+// 
+//            System.out.printf("%s, %s",nombre,apellido_paterno);
+                    
+        }
+        
+        return domicilio;
+       
+        }catch(SQLException ex){
+            System.out.println("No se pudo consultar el domicilio");
+            return null;
+        }
+    }
     
 }

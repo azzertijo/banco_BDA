@@ -24,18 +24,21 @@ private final ICuentasDAO cuentasDAO;
 private IClientesDAO clientesDAO;
 private final Cliente cliente;
 private ConfiguracionPaginado configPaginado;
+
+
     /**
      * Creates new form CuentasForm
      */
-    public CuentasForm(ICuentasDAO cuentasDAO, Cliente cliente) {
+    public CuentasForm(ICuentasDAO cuentasDAO, IClientesDAO clientesDAO, Cliente cliente) {
         this.configPaginado = new ConfiguracionPaginado(0,3);
         this.cuentasDAO=cuentasDAO;
         this.cliente=cliente;
         initComponents();
         this.txtId.setText(cliente.getId().toString());
-//        this.cargarTablaCuentas();
+        this.cargarTablaCuentas();
     } 
 
+    
     
     public void cargarTablaCuentas(){
         try{
@@ -50,6 +53,17 @@ private ConfiguracionPaginado configPaginado;
          
         }
     }
+    
+        private void avanzarPagina(){
+        this.configPaginado.avanzarPagina();
+        this.cargarTablaCuentas();
+    }
+    
+    private void retrocederPagina(){
+        this.configPaginado.retrocederPagina();
+        this.cargarTablaCuentas();
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +83,8 @@ private ConfiguracionPaginado configPaginado;
         txtId = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btnAvanzar = new javax.swing.JButton();
+        btnRetroceder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -132,6 +148,20 @@ private ConfiguracionPaginado configPaginado;
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Regresar al menú:");
 
+        btnAvanzar.setText("Avanzar");
+        btnAvanzar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarActionPerformed(evt);
+            }
+        });
+
+        btnRetroceder.setText("Retroceder");
+        btnRetroceder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetrocederActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,9 +172,6 @@ private ConfiguracionPaginado configPaginado;
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(34, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
@@ -156,7 +183,15 @@ private ConfiguracionPaginado configPaginado;
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100))))
+                        .addGap(100, 100, 100))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnRetroceder)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAvanzar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(21, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,7 +209,11 @@ private ConfiguracionPaginado configPaginado;
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAvanzar)
+                    .addComponent(btnRetroceder))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,16 +232,24 @@ private ConfiguracionPaginado configPaginado;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        CrearCuentaForm crearCuenta = new CrearCuentaForm(cuentasDAO,cliente);
+        CrearCuentaForm crearCuenta = new CrearCuentaForm(cuentasDAO,clientesDAO,cliente);
         crearCuenta.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       MenuForm menu = new MenuForm(clientesDAO,cliente);
+       MenuForm menu = new MenuForm(clientesDAO,cliente,cuentasDAO);
        menu.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
+        avanzarPagina();
+    }//GEN-LAST:event_btnAvanzarActionPerformed
+
+    private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed
+        retrocederPagina();
+    }//GEN-LAST:event_btnRetrocederActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,7 +257,9 @@ private ConfiguracionPaginado configPaginado;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAvanzar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnRetroceder;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

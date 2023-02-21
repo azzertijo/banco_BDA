@@ -4,13 +4,17 @@
  */
 package interfaces;
 
-import dominio.Domicilio;
+import dominio.Transferencia;
 import excepciones.PersistenciaException;
 
-public interface IDomicilioDAO {
+/**
+ *
+ * @author JORGE
+ */
+public interface ITransferenciasDAO {
     
-    Domicilio insertar(Domicilio domicilio) throws PersistenciaException;
+    Transferencia hacerTransferencia(Transferencia transferencia) throws PersistenciaException;
     
-    Domicilio consultar(Integer idCliente) throws PersistenciaException;
+    
     
 }

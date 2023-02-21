@@ -8,11 +8,8 @@ import dominio.Cliente;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
-import java.awt.event.ItemEvent;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -21,13 +18,16 @@ import javax.swing.table.DefaultTableModel;
  */
 public class LoginForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
-private  IDomicilioDAO domicilioDAO;
+private final  IDomicilioDAO domicilioDAO;
+private final ICuentasDAO cuentasDAO;
 private Cliente clienteLog;
     /**
      * Creates new form LoginForm
      */
-    public LoginForm(IClientesDAO clientesDAO) {
+    public LoginForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO, ICuentasDAO cuentasDAO) {
         this.clientesDAO = clientesDAO;
+        this.domicilioDAO=domicilioDAO;
+        this.cuentasDAO=cuentasDAO;
         initComponents();
     }
 
@@ -196,7 +196,7 @@ private Cliente clienteLog;
 
     private void btnAcceder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceder1ActionPerformed
         if(this.extraerLogin()!=null){
-            MenuForm menu = new MenuForm(clientesDAO,clienteLog);
+            MenuForm menu = new MenuForm(clientesDAO,clienteLog,cuentasDAO);
             menu.setVisible(true);
             this.setVisible(false);
         }else{

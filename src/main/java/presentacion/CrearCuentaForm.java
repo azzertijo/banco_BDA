@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author JORGE
  */
 public class CrearCuentaForm extends javax.swing.JFrame {
-//private final IClientesDAO clientesDAO;
+private final IClientesDAO clientesDAO;
 private final ICuentasDAO cuentasDAO;
 private final Cliente cliente;
 private int num_cuenta;
@@ -26,8 +26,9 @@ private int num_cuenta;
     /**
      * Creates new form CrearCuentaForm
      */
-    public CrearCuentaForm(ICuentasDAO cuentasDAO, Cliente cliente) {
+    public CrearCuentaForm(ICuentasDAO cuentasDAO, IClientesDAO clientesDAO,Cliente cliente) {
         this.cuentasDAO=cuentasDAO;
+        this.clientesDAO=clientesDAO;
         this.cliente=cliente;
         initComponents();
         Random random = new Random();
@@ -164,11 +165,14 @@ private int num_cuenta;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+       CuentasForm cuentas = new CuentasForm(cuentasDAO,clientesDAO,cliente);
         if(this.txtSaldo.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Ingrese un saldo a agregar a la cuenta");
         }else{
             try{
                 this.crear();
+                this.setVisible(false);
+                cuentas.setVisible(true);
             }catch(PersistenciaException e){
                 JOptionPane.showMessageDialog(null, "No se pudo crear la cuenta");
             }
@@ -176,7 +180,7 @@ private int num_cuenta;
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        CuentasForm cuentas = new CuentasForm(this.cuentasDAO,this.cliente);
+        CuentasForm cuentas = new CuentasForm(cuentasDAO,clientesDAO,cliente);
         this.setVisible(false);
         cuentas.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed

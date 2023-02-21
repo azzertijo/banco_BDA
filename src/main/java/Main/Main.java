@@ -7,9 +7,11 @@ package Main;
 
 import implementaciones.ClientesDAO;
 import implementaciones.ConexionBD;
+import implementaciones.CuentasDAO;
 import implementaciones.DomicilioDAO;
 import interfaces.IClientesDAO;
 import interfaces.IConexionBD;
+import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import presentacion.LoginForm;
 
@@ -24,8 +26,9 @@ public class Main {
 
         IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost/banco", "root", "adalgd123");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
-//        IDomicilioDAO domicilioDAO = new DomicilioDAO(generadorConexiones);
-        new LoginForm(clientesDAO).setVisible(true);
+        IDomicilioDAO domicilioDAO = new DomicilioDAO(generadorConexiones);
+        ICuentasDAO cuentasDAO = new CuentasDAO(generadorConexiones);
+        new LoginForm(clientesDAO,domicilioDAO,cuentasDAO).setVisible(true);
         
 
     }

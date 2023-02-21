@@ -67,8 +67,7 @@ public class CuentasDAO implements ICuentasDAO{
 
     @Override
     public List<Cuenta> consultar(ConfiguracionPaginado configPaginado, Cliente cliente) throws PersistenciaException {
-        String codigoSQL = "SELECT num_cuenta,saldo,fecha_apertura "
-                + "FROM cuentas WHERE id_clientes=? LIMIT ? OFFSET ?";
+        String codigoSQL = "SELECT num_cuenta,saldo,fecha_apertura FROM cuentas WHERE id_clientes=? LIMIT ? OFFSET ?";
         List<Cuenta> listaCuentas = new LinkedList<>();
         try (
                 Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();

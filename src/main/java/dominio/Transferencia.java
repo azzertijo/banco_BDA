@@ -9,13 +9,24 @@ import java.util.Objects;
 
 public class Transferencia {
     private Integer id;
+    private Double monto;
+    private Integer cuenta_origen;
     private Integer cuenta_destino;
+    
 
     public Transferencia() {
     }
 
-    public Transferencia(Integer id, Integer cuenta_destino) {
+    public Transferencia(Integer id, Double monto, Integer cuenta_origen, Integer cuenta_destino) {
         this.id = id;
+        this.monto = monto;
+        this.cuenta_origen = cuenta_origen;
+        this.cuenta_destino = cuenta_destino;
+    }
+
+    public Transferencia(Double monto, Integer cuenta_origen, Integer cuenta_destino) {
+        this.monto = monto;
+        this.cuenta_origen = cuenta_origen;
         this.cuenta_destino = cuenta_destino;
     }
 
@@ -25,6 +36,22 @@ public class Transferencia {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Double monto) {
+        this.monto = monto;
+    }
+
+    public Integer getCuenta_origen() {
+        return cuenta_origen;
+    }
+
+    public void setCuenta_origen(Integer cuenta_origen) {
+        this.cuenta_origen = cuenta_origen;
     }
 
     public Integer getCuenta_destino() {
@@ -37,8 +64,8 @@ public class Transferencia {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -59,6 +86,9 @@ public class Transferencia {
 
     @Override
     public String toString() {
-        return "Transferencia{" + "id=" + id + ", cuenta_destino=" + cuenta_destino + '}';
+        return "Transferencia{" + "id=" + id + ", monto=" + monto + ", cuenta_origen=" + cuenta_origen + ", cuenta_destino=" + cuenta_destino + '}';
     }
+
+    
+    
 }

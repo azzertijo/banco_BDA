@@ -8,6 +8,7 @@ import dominio.Cliente;
 import dominio.Domicilio;
 import excepciones.PersistenciaException;
 import interfaces.IClientesDAO;
+import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import javax.swing.JOptionPane;
 
@@ -18,15 +19,31 @@ import javax.swing.JOptionPane;
 public class ActualizarForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final IDomicilioDAO domicilioDAO;
+private final ICuentasDAO cuentasDAO;
 private final Cliente cliente;
+private Domicilio domicilio;
+
+
     /**
      * Creates new form ActualizarForm
      */
-    public ActualizarForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO, Cliente cliente) {
+    public ActualizarForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO, Cliente cliente, Domicilio domicilio, ICuentasDAO cuentasDAO) throws PersistenciaException {
        this.clientesDAO=clientesDAO;
        this.domicilioDAO=domicilioDAO;
        this.cliente=cliente;
+       this.domicilio=domicilio;
+       this.cuentasDAO=cuentasDAO;
         initComponents();
+        
+        
+        this.txtfUser.setText(cliente.getUsuario());
+        this.txtContra.setText(cliente.getContrasenia());
+        this.txtfNombres.setText(cliente.getNombre());
+        this.txtfApellidoPat.setText(cliente.getApellido_paterno());
+        this.txtfApellidoMat.setText(cliente.getApellido_materno());
+        this.txtfCalle.setText(this.consultarDomicilioCliente().getCalle());
+        this.txtfColonia.setText(this.consultarDomicilioCliente().getColonia());
+        this.txtfNumCasa.setText(this.consultarDomicilioCliente().getNum_casa());
     }
 
     private Cliente extraerDatosCliente(){
@@ -51,6 +68,16 @@ private final Cliente cliente;
         return domicilio;
     }
     
+    private Domicilio consultarDomicilioCliente() throws PersistenciaException{
+       try{
+        domicilio = domicilioDAO.consultar(cliente.getIdDireccion());
+        return domicilio;
+       }catch(PersistenciaException ex){
+           JOptionPane.showMessageDialog(null, "No se pudo consultar el domicilio");
+           return null;
+       }  
+    }
+    
     private void mostrarMensajeClienteGuardado(Cliente clienteGuardado){
         JOptionPane.showMessageDialog(this, "Se agregó el cliente: " + clienteGuardado.getNombre(),"Información",JOptionPane.INFORMATION_MESSAGE);
     }
@@ -66,7 +93,7 @@ private final Cliente cliente;
         Cliente cliente = this.extraerDatosCliente();
         this.domicilioDAO.insertar(domicilio);
         cliente.setIdDireccion(domicilio.getId());
-        this.clientesDAO.insertar(cliente);
+        this.clientesDAO.actualizar(cliente);
         this.mostrarMensajeClienteGuardado(cliente);
         }catch(PersistenciaException ex){
            this.mostrarMensajeErrorAlGuardar();
@@ -290,27 +317,28 @@ private final Cliente cliente;
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyTyped
-       this.txtContra.setText(cliente.getContrasenia());
+       
         if(this.txtContra.getText().length()>=16)evt.consume();
     }//GEN-LAST:event_txtContraKeyTyped
 
     private void txtfNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfNombresKeyTyped
-        this.txtfNombres.setText(cliente.getNombre());
+        
         char c = evt.getKeyChar();
         if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfNombres.getText().length()>=50)evt.consume();
     }//GEN-LAST:event_txtfNombresKeyTyped
 
     private void txtfApellidoPatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoPatKeyTyped
-        this.txtfApellidoPat.setText(cliente.getApellido_paterno());
+        
         char c = evt.getKeyChar();
         if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoPat.getText().length()>=50)evt.consume();
     }//GEN-LAST:event_txtfApellidoPatKeyTyped
 
     private void txtfApellidoMatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfApellidoMatKeyTyped
-       this.txtfApellidoMat.setText(cliente.getApellido_materno());
+ 
         char c = evt.getKeyChar();
         if(((c<'a' || c>'z') && (c<'A') | c>'Z') || this.txtfApellidoMat.getText().length()>=50)evt.consume();
     }//GEN-LAST:event_txtfApellidoMatKeyTyped
@@ -329,12 +357,12 @@ private final Cliente cliente;
     }//GEN-LAST:event_btnAccederActionPerformed
 
     private void txtfUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfUserKeyTyped
-        this.txtfUser.setText(cliente.getUsuario());
+        
         if(this.txtfUser.getText().length()>=20)evt.consume();
     }//GEN-LAST:event_txtfUserKeyTyped
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        MenuForm menu = new MenuForm(clientesDAO,cliente);
+        MenuForm menu = new MenuForm(clientesDAO,cliente,cuentasDAO);
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
