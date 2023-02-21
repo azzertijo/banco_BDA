@@ -115,6 +115,7 @@ private final IConexionBD conexion;
         lblSaldo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Transferencia");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(231, 253, 218));
@@ -127,7 +128,6 @@ private final IConexionBD conexion;
         });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Cuentas");
 
         cbxCuenta.addItemListener(new java.awt.event.ItemListener() {
@@ -137,7 +137,6 @@ private final IConexionBD conexion;
         });
 
         jLabel5.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Cuenta destino");
 
         btnTransferir.setText("Transferir");
@@ -148,15 +147,12 @@ private final IConexionBD conexion;
         });
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Monto a transferir");
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Saldo de cuenta: $");
 
         lblSaldo.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        lblSaldo.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
