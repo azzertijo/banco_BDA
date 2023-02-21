@@ -13,7 +13,7 @@ import interfaces.IConexionBD;
 public class RetiroSinCuentaForm extends javax.swing.JFrame {
 private final IConexionBD conexion;
     /**
-     * Creates new form RetiroSinCuentaForm
+     * Constructor
      */
     public RetiroSinCuentaForm(IConexionBD conexion) {
         this.conexion=conexion;
@@ -121,7 +121,10 @@ private final IConexionBD conexion;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * Regresa a la pantalla de Login
+ * @param evt 
+ */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         LoginForm login = new LoginForm(conexion);
         this.setVisible(false);
