@@ -12,9 +12,19 @@ public class Domicilio {
     private String colonia;
     private String num_casa;
 
+    /**
+     * Constructor vacío
+     */
     public Domicilio() {
     }
 
+    /**
+     * Constructor por defecto
+     * @param id Identificación del domicilio
+     * @param calle Calle 
+     * @param colonia Colonia
+     * @param num_casa Número de casa
+     */
     public Domicilio(Integer id, String calle, String colonia, String num_casa) {
         this.id = id;
         this.calle = calle;
@@ -22,6 +32,12 @@ public class Domicilio {
         this.num_casa = num_casa;
     }
 
+    /**
+     * Constructor sin identificación del domicilio 
+     * @param calle Calle 
+     * @param colonia Colonia
+     * @param num_casa Número de casa
+     */
     public Domicilio(String calle, String colonia, String num_casa) {
         this.calle = calle;
         this.colonia = colonia;

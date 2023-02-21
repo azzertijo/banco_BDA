@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author JORGE
+ * @author Jorge Sánchez y Rosalía Pérez
  */
 public class Cliente {
 
