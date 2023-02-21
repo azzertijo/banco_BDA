@@ -18,29 +18,32 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
- * @author JORGE
+ * @author Jorge Sánchez y Rosalía Pérez
  */
 public class MenuForm extends javax.swing.JFrame {
-private final IClientesDAO clientesDAO;
-private final ICuentasDAO cuentasDAO;
-private IDomicilioDAO domicilioDAO;
-private final IConexionBD conexion;
-private  Domicilio domicilio;
-private final Cliente cliente;
-private Cuenta cuenta=null;
+
+    private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
+    private IDomicilioDAO domicilioDAO;
+    private final IConexionBD conexion;
+    private Domicilio domicilio;
+    private final Cliente cliente;
+    private Cuenta cuenta = null;
+
     /**
-     * Creates new form MenuForm
+     * Constructores
      */
     public MenuForm(IConexionBD conexion, Cliente cliente) {
-        this.conexion=conexion;
+        this.conexion = conexion;
         this.clientesDAO = new ClientesDAO(conexion);
-        this.cuentasDAO=new CuentasDAO(conexion);
+        this.cuentasDAO = new CuentasDAO(conexion);
         this.cliente = cliente;
-        
+
         initComponents();
-        this.txtNombre.setText(cliente.getNombre() +" "+ cliente.getApellido_paterno() + " " + cliente.getApellido_materno());
+        this.txtNombre.setText(cliente.getNombre() + " " + cliente.getApellido_paterno() + " " + cliente.getApellido_materno());
     }
 
     /**
@@ -70,15 +73,17 @@ private Cuenta cuenta=null;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(231, 253, 218));
+        jPanel1.setBackground(new java.awt.Color(187, 206, 207));
 
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Hola, ");
 
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
 
+        btnSaldo.setBackground(new java.awt.Color(89, 164, 232));
+        btnSaldo.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnSaldo.setForeground(new java.awt.Color(255, 255, 255));
         btnSaldo.setText("Agregar");
         btnSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,10 +91,13 @@ private Cuenta cuenta=null;
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Agregar saldo a cuenta");
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(26, 51, 89));
+        jLabel2.setText("Agregar saldo a cuenta ----------------");
 
+        btnActualizar.setBackground(new java.awt.Color(89, 164, 232));
+        btnActualizar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,14 +105,17 @@ private Cuenta cuenta=null;
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Actualizar información");
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(26, 51, 89));
+        jLabel3.setText("Actualizar información -----------------");
 
-        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Generar folio y contraseña");
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(26, 51, 89));
+        jLabel4.setText("Generar folio y contraseña  -----------");
 
+        btnGenerar.setBackground(new java.awt.Color(89, 164, 232));
+        btnGenerar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnGenerar.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerar.setText("Generar");
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +123,9 @@ private Cuenta cuenta=null;
             }
         });
 
+        btnCerrar.setBackground(new java.awt.Color(218, 81, 85));
+        btnCerrar.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnCerrar.setForeground(new java.awt.Color(255, 255, 255));
         btnCerrar.setText("Cerrar sesión");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,57 +137,55 @@ private Cuenta cuenta=null;
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnCerrar)
+                .addGap(17, 17, 17))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btnActualizar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(50, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombre)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCerrar)
-                        .addGap(23, 23, 23))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnSaldo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(txtNombre))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel1)))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtNombre)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnCerrar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnActualizar)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(txtNombre)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel2)
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnActualizar)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGenerar)))
+                .addGap(66, 66, 66)
+                .addComponent(btnCerrar)
+                .addGap(19, 19, 19))
         );
 
         jMenuBar1.setBorderPainted(false);
@@ -215,39 +227,58 @@ private Cuenta cuenta=null;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransferMouseClicked
-        TransferenciasForm transferencias = new TransferenciasForm(conexion,cliente);
+        TransferenciasForm transferencias = new TransferenciasForm(conexion, cliente);
         this.setVisible(false);
         transferencias.setVisible(true);
     }//GEN-LAST:event_btnTransferMouseClicked
 
     private void btnCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCuentasMouseClicked
-       CuentasForm cuentas = new CuentasForm(conexion,this.cliente);
-       this.setVisible(false);  
-       cuentas.setVisible(true);
+        CuentasForm cuentas = new CuentasForm(conexion, this.cliente);
+        this.setVisible(false);
+        cuentas.setVisible(true);
     }//GEN-LAST:event_btnCuentasMouseClicked
-
+/**
+ * Formulario para actualizar la información con la que te registraste
+ * @param evt Actualiza datos
+ */
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-    try {
-       ActualizarForm actualiza = new ActualizarForm(conexion,cliente,domicilio);
-         this.setVisible(false);
-        actualiza.setVisible(true);
-    } catch (PersistenciaException ex) {
-        Logger.getLogger(MenuForm.class.getName()).log(Level.SEVERE, null, ex);
-    }
-       
-    }//GEN-LAST:event_btnActualizarActionPerformed
+        try {
+            ActualizarForm actualiza = new ActualizarForm(conexion, cliente, domicilio);
+            this.setVisible(false);
+            actualiza.setVisible(true);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(MenuForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }//GEN-LAST:event_btnActualizarActionPerformed
+/**
+ * Generador de folio y contraseña aleatorio para las transacciones
+ * @param evt 
+ */
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
 //        Random random = new Random();
 //        contrasenia= random.nextInt(9000000) + 10000000;
-    }//GEN-LAST:event_btnGenerarActionPerformed
+        Random number = new Random(123L);
 
+        for (int i = 0; i < 20; i++) {
+           
+            int n = number.nextInt(21);
+            System.out.println(n);
+        }
+    }//GEN-LAST:event_btnGenerarActionPerformed
+/**
+ * Agrega saldo a una de las cuentas registradas
+ * @param evt 
+ */
     private void btnSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaldoActionPerformed
-        AgregarSaldoForm agregar = new AgregarSaldoForm(conexion,cliente,cuenta);
+        AgregarSaldoForm agregar = new AgregarSaldoForm(conexion, cliente, cuenta);
         this.setVisible(false);
         agregar.setVisible(true);
     }//GEN-LAST:event_btnSaldoActionPerformed
-
+/**
+ * Cierra la sesión actual
+ * @param evt 
+ */
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         LoginForm login = new LoginForm(conexion);
         this.setVisible(false);
