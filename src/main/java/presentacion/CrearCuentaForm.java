@@ -7,7 +7,10 @@ package presentacion;
 import dominio.Cliente;
 import dominio.Cuenta;
 import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
+import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import java.util.Random;
 import javax.swing.JOptionPane;
@@ -21,14 +24,16 @@ public class CrearCuentaForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final ICuentasDAO cuentasDAO;
 private final Cliente cliente;
+private final IConexionBD conexion;
 private int num_cuenta;
 
     /**
      * Creates new form CrearCuentaForm
      */
-    public CrearCuentaForm(ICuentasDAO cuentasDAO, IClientesDAO clientesDAO,Cliente cliente) {
-        this.cuentasDAO=cuentasDAO;
-        this.clientesDAO=clientesDAO;
+    public CrearCuentaForm(IConexionBD conexion, Cliente cliente) {
+        this.conexion=conexion;
+        this.cuentasDAO= new CuentasDAO(conexion);
+        this.clientesDAO= new ClientesDAO(conexion);
         this.cliente=cliente;
         initComponents();
         Random random = new Random();
@@ -165,7 +170,7 @@ private int num_cuenta;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-       CuentasForm cuentas = new CuentasForm(cuentasDAO,clientesDAO,cliente);
+       CuentasForm cuentas = new CuentasForm(conexion,cliente);
         if(this.txtSaldo.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Ingrese un saldo a agregar a la cuenta");
         }else{
@@ -180,7 +185,7 @@ private int num_cuenta;
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        CuentasForm cuentas = new CuentasForm(cuentasDAO,clientesDAO,cliente);
+        CuentasForm cuentas = new CuentasForm(conexion,cliente);
         this.setVisible(false);
         cuentas.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed

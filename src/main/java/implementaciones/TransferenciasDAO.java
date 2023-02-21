@@ -45,11 +45,11 @@ private final IConexionBD GENERADOR_CONEXIONES;
                 transferencia.setId(llavePrimaria);
                 return transferencia;
             }
-            throw new PersistenciaException("Cuenta registrada pero ID no generada");
+            throw new PersistenciaException("Transferencia registrada pero ID no generada");
         }catch(SQLException e){
             System.err.println(e.getMessage());
             System.out.println("Cosa123");
-            throw new PersistenciaException("No fue posible registrar la cuenta");
+            throw new PersistenciaException("No fue posible registrar la transferencia");
         }
     }
     

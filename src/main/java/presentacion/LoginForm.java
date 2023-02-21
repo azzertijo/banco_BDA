@@ -7,7 +7,10 @@ package presentacion;
 import dominio.Cliente;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
+import implementaciones.CuentasDAO;
+import implementaciones.DomicilioDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import javax.swing.JOptionPane;
@@ -20,14 +23,16 @@ public class LoginForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final  IDomicilioDAO domicilioDAO;
 private final ICuentasDAO cuentasDAO;
+private final IConexionBD conexion;
 private Cliente clienteLog;
     /**
      * Creates new form LoginForm
      */
-    public LoginForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO, ICuentasDAO cuentasDAO) {
-        this.clientesDAO = clientesDAO;
-        this.domicilioDAO=domicilioDAO;
-        this.cuentasDAO=cuentasDAO;
+    public LoginForm(IConexionBD conexion) {
+        this.conexion=conexion;
+        this.clientesDAO = new ClientesDAO(conexion);
+        this.domicilioDAO=new DomicilioDAO (conexion);
+        this.cuentasDAO=new CuentasDAO(conexion);
         initComponents();
     }
 
@@ -189,14 +194,14 @@ private Cliente clienteLog;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        RegistroForm registro = new RegistroForm(clientesDAO,domicilioDAO);
+        RegistroForm registro = new RegistroForm(conexion);
         registro.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnAcceder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceder1ActionPerformed
         if(this.extraerLogin()!=null){
-            MenuForm menu = new MenuForm(clientesDAO,clienteLog,cuentasDAO);
+            MenuForm menu = new MenuForm(conexion,clienteLog);
             menu.setVisible(true);
             this.setVisible(false);
         }else{

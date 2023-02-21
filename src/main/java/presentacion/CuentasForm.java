@@ -8,7 +8,9 @@ import dominio.Cliente;
 import dominio.Cuenta;
 import excepciones.PersistenciaException;
 import implementaciones.ClientesDAO;
+import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,15 +25,17 @@ public class CuentasForm extends javax.swing.JFrame {
 private final ICuentasDAO cuentasDAO;
 private IClientesDAO clientesDAO;
 private final Cliente cliente;
+private final IConexionBD conexion;
 private ConfiguracionPaginado configPaginado;
 
 
     /**
      * Creates new form CuentasForm
      */
-    public CuentasForm(ICuentasDAO cuentasDAO, IClientesDAO clientesDAO, Cliente cliente) {
+    public CuentasForm(IConexionBD conexion,Cliente cliente) {
+        this.conexion=conexion;
         this.configPaginado = new ConfiguracionPaginado(0,3);
-        this.cuentasDAO=cuentasDAO;
+        this.cuentasDAO= new CuentasDAO(conexion);
         this.cliente=cliente;
         initComponents();
         this.txtId.setText(cliente.getId().toString());
@@ -232,13 +236,13 @@ private ConfiguracionPaginado configPaginado;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        CrearCuentaForm crearCuenta = new CrearCuentaForm(cuentasDAO,clientesDAO,cliente);
+        CrearCuentaForm crearCuenta = new CrearCuentaForm(conexion,cliente);
         crearCuenta.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       MenuForm menu = new MenuForm(clientesDAO,cliente,cuentasDAO);
+       MenuForm menu = new MenuForm(conexion,cliente);
        menu.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_btnRegresarActionPerformed

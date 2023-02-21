@@ -28,7 +28,7 @@ public class Main {
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
         IDomicilioDAO domicilioDAO = new DomicilioDAO(generadorConexiones);
         ICuentasDAO cuentasDAO = new CuentasDAO(generadorConexiones);
-        new LoginForm(clientesDAO,domicilioDAO,cuentasDAO).setVisible(true);
+        new LoginForm(generadorConexiones).setVisible(true);
         
 
     }

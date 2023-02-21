@@ -7,7 +7,11 @@ package presentacion;
 import dominio.Cliente;
 import dominio.Domicilio;
 import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
+import implementaciones.CuentasDAO;
+import implementaciones.DomicilioDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import javax.swing.JOptionPane;
@@ -20,6 +24,7 @@ public class ActualizarForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final IDomicilioDAO domicilioDAO;
 private final ICuentasDAO cuentasDAO;
+private final IConexionBD conexion;
 private final Cliente cliente;
 private Domicilio domicilio;
 
@@ -27,12 +32,14 @@ private Domicilio domicilio;
     /**
      * Creates new form ActualizarForm
      */
-    public ActualizarForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO, Cliente cliente, Domicilio domicilio, ICuentasDAO cuentasDAO) throws PersistenciaException {
-       this.clientesDAO=clientesDAO;
-       this.domicilioDAO=domicilioDAO;
+    public ActualizarForm(IConexionBD conexion, Cliente cliente, Domicilio domicilio) throws PersistenciaException {
+       this.conexion=conexion;
+       this.clientesDAO= new ClientesDAO(conexion);
+       this.domicilioDAO= new DomicilioDAO(conexion);
+       this.cuentasDAO= new CuentasDAO(conexion);
        this.cliente=cliente;
        this.domicilio=domicilio;
-       this.cuentasDAO=cuentasDAO;
+       
         initComponents();
         
         
@@ -71,6 +78,7 @@ private Domicilio domicilio;
     private Domicilio consultarDomicilioCliente() throws PersistenciaException{
        try{
         domicilio = domicilioDAO.consultar(cliente.getIdDireccion());
+        System.out.println(domicilio);
         return domicilio;
        }catch(PersistenciaException ex){
            JOptionPane.showMessageDialog(null, "No se pudo consultar el domicilio");
@@ -89,11 +97,12 @@ private Domicilio domicilio;
     
     private void actualizar() throws PersistenciaException{
         try{
-        Domicilio domicilio = this.extraerDatosDomicilio();
-        Cliente cliente = this.extraerDatosCliente();
-        this.domicilioDAO.insertar(domicilio);
-        cliente.setIdDireccion(domicilio.getId());
-        this.clientesDAO.actualizar(cliente);
+        Domicilio domicilioA = this.extraerDatosDomicilio();
+        Cliente clienteA = this.extraerDatosCliente();
+        cliente.setId(this.cliente.getId());
+        this.domicilioDAO.actualizar(domicilioA);
+        cliente.setIdDireccion(domicilioA.getId());
+        this.clientesDAO.actualizar(clienteA);
         this.mostrarMensajeClienteGuardado(cliente);
         }catch(PersistenciaException ex){
            this.mostrarMensajeErrorAlGuardar();
@@ -362,7 +371,7 @@ private Domicilio domicilio;
     }//GEN-LAST:event_txtfUserKeyTyped
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        MenuForm menu = new MenuForm(clientesDAO,cliente,cuentasDAO);
+        MenuForm menu = new MenuForm(conexion,cliente);
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed

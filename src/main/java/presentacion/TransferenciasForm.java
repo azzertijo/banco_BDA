@@ -5,7 +5,20 @@
 package presentacion;
 
 import dominio.Cliente;
+import dominio.Cuenta;
+import dominio.Transferencia;
+import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
+import implementaciones.CuentasDAO;
+import implementaciones.TransferenciasDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
+import interfaces.ICuentasDAO;
+import interfaces.ITransferenciasDAO;
+import java.awt.event.ItemEvent;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,16 +26,73 @@ import interfaces.IClientesDAO;
  */
 public class TransferenciasForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
+private final ICuentasDAO cuentasDAO;
+private final ITransferenciasDAO transferenciasDAO;
 private final Cliente cliente;
+private final IConexionBD conexion;
     /**
      * Creates new form TransferenciasForm
      */
-    public TransferenciasForm(IClientesDAO clientesDAO, Cliente cliente) {
-         this.clientesDAO = clientesDAO;
-        this.cliente = cliente;
+    public TransferenciasForm(IConexionBD conexion, Cliente cliente) {
         initComponents();
+        this.conexion=conexion;
+         this.clientesDAO =  new ClientesDAO(conexion);
+         this.cuentasDAO = new CuentasDAO(conexion);
+         this.transferenciasDAO = new TransferenciasDAO(conexion);
+        this.cliente = cliente;
+        System.out.println(cliente);
+        this.llenarCombo();
     }
 
+    
+    public Transferencia extraerDatos(){
+        Integer cuentaDestino = Integer.parseInt(this.txtfDestino.getText());
+        Double montoTransferir = Double.parseDouble(this.txtfTransferir.getText());
+        Cuenta origen = (Cuenta)cbxCuenta.getSelectedItem();
+        Integer cuentaOrigen = origen.getNum_cuenta();;
+        Transferencia transfer = new Transferencia(montoTransferir,cuentaOrigen,cuentaDestino);
+        System.out.println(origen + "  " + cuentaOrigen + " " +transfer);
+        return transfer;
+    }
+    
+    public void transferir()throws PersistenciaException{
+       try{
+        Transferencia transferencia = this.extraerDatos();
+        this.transferenciasDAO.hacerTransferencia(transferencia);
+        this.mostrarMensajeTransferenciaHecha(transferencia);
+       }catch(PersistenciaException ex){
+           ex.getMessage();
+           this.mostrarMensajeErrorAlTransferir();
+       }
+    }
+    
+    private void mostrarMensajeTransferenciaHecha(Transferencia transfer){
+        JOptionPane.showMessageDialog(this, "Se realizó la transferencia" ,"Información",JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void mostrarMensajeErrorAlTransferir(){
+        JOptionPane.showMessageDialog(this, "No fue posible transferir","Error",JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void llenarCombo() {
+        cbxCuenta.removeAllItems();
+        try {
+            List<Cuenta> cuentasAsociadas = cuentasDAO.consultarCombo(cliente);
+            if (cuentasAsociadas == null) {
+                this.btnTransferir.setEnabled(false);
+            } else {
+                this.btnTransferir.setEnabled(true);
+                Iterator recorre = cuentasAsociadas.iterator();
+                while (recorre.hasNext()) {
+                    Cuenta cuenta = (Cuenta) recorre.next();
+                    this.cbxCuenta.addItem(cuenta);
+                }
+            }
+        } catch (PersistenciaException e) {
+       JOptionPane.showMessageDialog(this, e);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +103,7 @@ private final Cliente cliente;
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         cbxCuenta = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -49,11 +119,22 @@ private final Cliente cliente;
 
         jPanel1.setBackground(new java.awt.Color(231, 253, 218));
 
-        jButton1.setText("Regresar");
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Cuentas");
+
+        cbxCuenta.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxCuentaItemStateChanged(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -85,7 +166,7 @@ private final Cliente cliente;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jButton1))
+                        .addComponent(btnRegresar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,7 +182,7 @@ private final Cliente cliente;
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addGap(18, 18, 18)
-                                    .addComponent(cbxCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbxCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -134,7 +215,7 @@ private final Cliente cliente;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(btnTransferir)
                 .addGap(17, 17, 17)
-                .addComponent(jButton1)
+                .addComponent(btnRegresar)
                 .addGap(18, 18, 18))
         );
 
@@ -154,15 +235,39 @@ private final Cliente cliente;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
-       
+       if (this.txtfDestino.getText().isEmpty() || this.txtfTransferir.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos tienen que ser llenados");
+        } else {
+            try {
+                this.transferir();
+            } catch (PersistenciaException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo ingresar el cliente");
+            }
+        }
     }//GEN-LAST:event_btnTransferirActionPerformed
+
+    private void cbxCuentaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCuentaItemStateChanged
+//       if(evt.getStateChange()==ItemEvent.SELECTED){
+//           
+//       }
+        Cuenta cuenta = (Cuenta)cbxCuenta.getSelectedItem();
+        if(cuenta != null){
+            lblSaldo.setText(String.valueOf(cuenta.getSaldo()));
+        }
+    }//GEN-LAST:event_cbxCuentaItemStateChanged
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        MenuForm menu = new MenuForm(conexion,cliente);
+        this.setVisible(false);
+        menu.setVisible(true);
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnTransferir;
-    private javax.swing.JComboBox<String> cbxCuenta;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<Cuenta> cbxCuenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;

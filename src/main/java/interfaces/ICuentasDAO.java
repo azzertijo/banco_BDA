@@ -19,7 +19,11 @@ public interface ICuentasDAO {
     
     Cuenta insertar(Cuenta cuenta) throws PersistenciaException;
     
+    Cuenta actualizar(Cuenta cuenta) throws PersistenciaException;
+    
     List<Cuenta> consultar(ConfiguracionPaginado configPaginado, Cliente cliente) throws PersistenciaException;
+    
+    List<Cuenta> consultarCombo(Cliente cliente) throws PersistenciaException;
     
      IConexionBD getGENERADOR_CONEXIONES();
     

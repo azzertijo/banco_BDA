@@ -5,10 +5,13 @@
 package presentacion;
 
 import dominio.Cliente;
+import dominio.Cuenta;
 import dominio.Domicilio;
 import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
 import implementaciones.CuentasDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import java.util.logging.Level;
@@ -22,15 +25,18 @@ public class MenuForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final ICuentasDAO cuentasDAO;
 private IDomicilioDAO domicilioDAO;
+private final IConexionBD conexion;
 private  Domicilio domicilio;
 private final Cliente cliente;
+private Cuenta cuenta=null;
     /**
      * Creates new form MenuForm
      */
-    public MenuForm(IClientesDAO clientesDAO,  Cliente cliente, ICuentasDAO cuentasDAO) {
-        this.clientesDAO = clientesDAO;
+    public MenuForm(IConexionBD conexion, Cliente cliente) {
+        this.conexion=conexion;
+        this.clientesDAO = new ClientesDAO(conexion);
+        this.cuentasDAO=new CuentasDAO(conexion);
         this.cliente = cliente;
-        this.cuentasDAO=cuentasDAO;
         
         initComponents();
         this.txtNombre.setText(cliente.getNombre() +" "+ cliente.getApellido_paterno() + " " + cliente.getApellido_materno());
@@ -54,6 +60,7 @@ private final Cliente cliente;
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnGenerar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnCuentas = new javax.swing.JMenu();
         btnHistorial = new javax.swing.JMenu();
@@ -72,6 +79,11 @@ private final Cliente cliente;
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
 
         btnSaldo.setText("Agregar");
+        btnSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaldoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -99,6 +111,13 @@ private final Cliente cliente;
             }
         });
 
+        btnCerrar.setText("Cerrar sesión");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -106,31 +125,41 @@ private final Cliente cliente;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(btnActualizar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(50, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombre))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnActualizar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addComponent(txtNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCerrar)
+                        .addGap(23, 23, 23))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtNombre))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtNombre)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(btnCerrar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -185,20 +214,20 @@ private final Cliente cliente;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTransferMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransferMouseClicked
-        TransferenciasForm transferencias = new TransferenciasForm(clientesDAO,cliente);
+        TransferenciasForm transferencias = new TransferenciasForm(conexion,cliente);
         this.setVisible(false);
         transferencias.setVisible(true);
     }//GEN-LAST:event_btnTransferMouseClicked
 
     private void btnCuentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCuentasMouseClicked
-       CuentasForm cuentas = new CuentasForm(cuentasDAO,clientesDAO,this.cliente);
+       CuentasForm cuentas = new CuentasForm(conexion,this.cliente);
        this.setVisible(false);  
        cuentas.setVisible(true);
     }//GEN-LAST:event_btnCuentasMouseClicked
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
     try {
-       ActualizarForm actualiza = new ActualizarForm(clientesDAO,domicilioDAO,cliente,domicilio,cuentasDAO);
+       ActualizarForm actualiza = new ActualizarForm(conexion,cliente,domicilio);
          this.setVisible(false);
         actualiza.setVisible(true);
     } catch (PersistenciaException ex) {
@@ -211,8 +240,21 @@ private final Cliente cliente;
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGenerarActionPerformed
 
+    private void btnSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaldoActionPerformed
+        AgregarSaldoForm agregar = new AgregarSaldoForm(conexion,cliente,cuenta);
+        this.setVisible(false);
+        agregar.setVisible(true);
+    }//GEN-LAST:event_btnSaldoActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        LoginForm login = new LoginForm(conexion);
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnCerrar;
     private javax.swing.JMenu btnCuentas;
     private javax.swing.JButton btnGenerar;
     private javax.swing.JMenu btnHistorial;

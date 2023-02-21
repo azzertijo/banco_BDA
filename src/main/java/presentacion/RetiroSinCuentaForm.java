@@ -4,16 +4,19 @@
  */
 package presentacion;
 
+import interfaces.IConexionBD;
+
 /**
  *
  * @author JORGE
  */
 public class RetiroSinCuentaForm extends javax.swing.JFrame {
-
+private final IConexionBD conexion;
     /**
      * Creates new form RetiroSinCuentaForm
      */
-    public RetiroSinCuentaForm() {
+    public RetiroSinCuentaForm(IConexionBD conexion) {
+        this.conexion=conexion;
         initComponents();
     }
 
@@ -32,6 +35,7 @@ public class RetiroSinCuentaForm extends javax.swing.JFrame {
         txtfContraR = new javax.swing.JTextField();
         txtfFolio = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,15 +50,17 @@ public class RetiroSinCuentaForm extends javax.swing.JFrame {
         jLabel2.setText("Contraseña");
 
         txtfContraR.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtfContraR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtfContraRActionPerformed(evt);
-            }
-        });
 
         txtfFolio.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         jButton1.setText("Ingresar");
+
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnIngresarLayout = new javax.swing.GroupLayout(btnIngresar);
         btnIngresar.setLayout(btnIngresarLayout);
@@ -67,11 +73,16 @@ public class RetiroSinCuentaForm extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtfContraR)
-                        .addComponent(txtfFolio, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                    .addGroup(btnIngresarLayout.createSequentialGroup()
+                        .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtfContraR)
+                            .addComponent(txtfFolio, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+                        .addContainerGap(48, Short.MAX_VALUE))
+                    .addGroup(btnIngresarLayout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegresar)
+                        .addGap(21, 21, 21))))
         );
         btnIngresarLayout.setVerticalGroup(
             btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,7 +96,9 @@ public class RetiroSinCuentaForm extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtfContraR, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresar))
                 .addGap(15, 15, 15))
         );
 
@@ -103,9 +116,11 @@ public class RetiroSinCuentaForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtfContraRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfContraRActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtfContraRActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        LoginForm login = new LoginForm(conexion);
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,6 +129,7 @@ public class RetiroSinCuentaForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnIngresar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

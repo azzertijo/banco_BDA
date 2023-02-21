@@ -13,4 +13,6 @@ public interface IDomicilioDAO {
     
     Domicilio consultar(Integer idCliente) throws PersistenciaException;
     
+    Domicilio actualizar(Domicilio domicilio) throws PersistenciaException;
+    
 }

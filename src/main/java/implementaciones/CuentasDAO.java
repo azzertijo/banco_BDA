@@ -74,8 +74,8 @@ public class CuentasDAO implements ICuentasDAO{
                 PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
             comando.setInt(1, cliente.getId());
-            comando.setInt(2, configPaginado.getPagina());
-            comando.setInt(3, configPaginado.getElementosASaltar());
+            comando.setInt(2, configPaginado.getElementosASaltar());
+            comando.setInt(3, configPaginado.getPagina());
             ResultSet resultado = comando.executeQuery();
 
             while (resultado.next()) {
@@ -90,15 +90,60 @@ public class CuentasDAO implements ICuentasDAO{
         } catch (SQLException ex) {
             throw new PersistenciaException("No fue posible consultar la lista de cuentas");
         }
-        
-        
+       
     }
 
-  
+    @Override
+    public List<Cuenta> consultarCombo(Cliente cliente) throws PersistenciaException {
+        String codigoSQL = "SELECT num_cuenta,saldo FROM cuentas WHERE id_clientes=?";
+        List<Cuenta> listaCuentas = new LinkedList<>();
+        try (
+                Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
+                PreparedStatement comando = conexion.prepareStatement(codigoSQL);) {
 
-  
+            comando.setInt(1, cliente.getId());
+            ResultSet resultado = comando.executeQuery();
 
-  
-    
+            while (resultado.next()) {
+                Integer num_cuenta = resultado.getInt("num_cuenta");
+                Double saldo = resultado.getDouble("saldo");
+                Cuenta cuenta = new Cuenta(num_cuenta,saldo);
+                listaCuentas.add(cuenta);
+            }
+
+            return listaCuentas;
+        } catch (SQLException ex) {
+            throw new PersistenciaException("No fue posible consultar la lista de cuentas");
+        }
+    }
+
+    @Override
+    public Cuenta actualizar(Cuenta cuenta) throws PersistenciaException {
+        String codigoSQL = "UPDATE CUENTAS SET SALDO=SALDO+? WHERE NUM_CUENTA=?";
+        
+        try(
+            Connection conexion = this.GENERADOR_CONEXIONES.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            )
+        
+        {
+            comando.setDouble(1,cuenta.getSaldo());
+            comando.setInt(2, cuenta.getNum_cuenta());
+            ResultSet resultado = comando.executeQuery();
+            comando.executeUpdate();
+        
+        if(resultado.next()){
+            Double saldo = resultado.getDouble("saldo");
+            Integer num_cuenta = resultado.getInt("num_cuenta");
+            cuenta = new Cuenta(num_cuenta,saldo);
+
+        }
+        return cuenta;
+       
+        }catch(SQLException ex){
+            
+            return null;
+        }
+    }
     
 }

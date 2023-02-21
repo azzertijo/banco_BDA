@@ -7,7 +7,10 @@ package presentacion;
 import dominio.Cliente;
 import dominio.Domicilio;
 import excepciones.PersistenciaException;
+import implementaciones.ClientesDAO;
+import implementaciones.DomicilioDAO;
 import interfaces.IClientesDAO;
+import interfaces.IConexionBD;
 import interfaces.ICuentasDAO;
 import interfaces.IDomicilioDAO;
 import java.sql.Date;
@@ -24,13 +27,13 @@ import javax.swing.JOptionPane;
 public class RegistroForm extends javax.swing.JFrame {
 private final IClientesDAO clientesDAO;
 private final IDomicilioDAO domicilioDAO;
-private ICuentasDAO cuentasDAO;
+
     /**
      * Creates new form RegistroForm
      */
-    public RegistroForm(IClientesDAO clientesDAO, IDomicilioDAO domicilioDAO) {
-        this.clientesDAO = clientesDAO;
-        this.domicilioDAO = domicilioDAO;
+    public RegistroForm(IConexionBD conexion) {
+        this.clientesDAO = new ClientesDAO(conexion);
+        this.domicilioDAO = new DomicilioDAO(conexion);
         initComponents();
     }
 
@@ -372,7 +375,7 @@ private ICuentasDAO cuentasDAO;
     }//GEN-LAST:event_txtContraKeyTyped
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-       LoginForm login = new LoginForm(clientesDAO,domicilioDAO,cuentasDAO);
+       LoginForm login = new LoginForm(this.clientesDAO.getGENERADOR_CONEXIONES());
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
