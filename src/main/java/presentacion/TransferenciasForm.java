@@ -25,55 +25,73 @@ import javax.swing.JOptionPane;
  * @author Jorge Sánchez y Rosalía Pérez
  */
 public class TransferenciasForm extends javax.swing.JFrame {
-private final IClientesDAO clientesDAO;
-private final ICuentasDAO cuentasDAO;
-private final ITransferenciasDAO transferenciasDAO;
-private final Cliente cliente;
-private final IConexionBD conexion;
+
+    private final IClientesDAO clientesDAO;
+    private final ICuentasDAO cuentasDAO;
+    private final ITransferenciasDAO transferenciasDAO;
+    private final Cliente cliente;
+    private final IConexionBD conexion;
+
     /**
-     * Creates new form TransferenciasForm
+     * Constructor
      */
     public TransferenciasForm(IConexionBD conexion, Cliente cliente) {
         initComponents();
-        this.conexion=conexion;
-         this.clientesDAO =  new ClientesDAO(conexion);
-         this.cuentasDAO = new CuentasDAO(conexion);
-         this.transferenciasDAO = new TransferenciasDAO(conexion);
+        this.conexion = conexion;
+        this.clientesDAO = new ClientesDAO(conexion);
+        this.cuentasDAO = new CuentasDAO(conexion);
+        this.transferenciasDAO = new TransferenciasDAO(conexion);
         this.cliente = cliente;
         System.out.println(cliente);
         this.llenarCombo();
     }
 
-    
-    public Transferencia extraerDatos(){
+    /**
+     * Entrae los datos de la tabla de transferencias
+     * @return transferencia
+     */
+    public Transferencia extraerDatos() {
         Integer cuentaDestino = Integer.parseInt(this.txtfDestino.getText());
         Double montoTransferir = Double.parseDouble(this.txtfTransferir.getText());
-        Cuenta origen = (Cuenta)cbxCuenta.getSelectedItem();
+        Cuenta origen = (Cuenta) cbxCuenta.getSelectedItem();
         Integer cuentaOrigen = origen.getNum_cuenta();;
-        Transferencia transfer = new Transferencia(montoTransferir,cuentaOrigen,cuentaDestino);
-        System.out.println(origen + "  " + cuentaOrigen + " " +transfer);
+        Transferencia transfer = new Transferencia(montoTransferir, cuentaOrigen, cuentaDestino);
+        System.out.println(origen + "  " + cuentaOrigen + " " + transfer);
         return transfer;
     }
-    
-    public void transferir()throws PersistenciaException{
-       try{
-        Transferencia transferencia = this.extraerDatos();
-        this.transferenciasDAO.hacerTransferencia(transferencia);
-        this.mostrarMensajeTransferenciaHecha(transferencia);
-       }catch(PersistenciaException ex){
-           ex.getMessage();
-           this.mostrarMensajeErrorAlTransferir();
-       }
+
+    /**
+     * Se encarga de realizar la operación de transferencia
+     * @throws PersistenciaException Error por si no se puede transferir
+     */
+    public void transferir() throws PersistenciaException {
+        try {
+            Transferencia transferencia = this.extraerDatos();
+            this.transferenciasDAO.hacerTransferencia(transferencia);
+            this.mostrarMensajeTransferenciaHecha(transferencia);
+        } catch (PersistenciaException ex) {
+            ex.getMessage();
+            this.mostrarMensajeErrorAlTransferir();
+        }
     }
-    
-    private void mostrarMensajeTransferenciaHecha(Transferencia transfer){
-        JOptionPane.showMessageDialog(this, "Se realizó la transferencia" ,"Información",JOptionPane.INFORMATION_MESSAGE);
+
+    /**
+     * Muestra un mensaje si se realizó la transferencia
+     * @param transfer transferencia
+     */
+    private void mostrarMensajeTransferenciaHecha(Transferencia transfer) {
+        JOptionPane.showMessageDialog(this, "Se realizó la transferencia", "Información", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    private void mostrarMensajeErrorAlTransferir(){
-        JOptionPane.showMessageDialog(this, "No fue posible transferir","Error",JOptionPane.ERROR_MESSAGE);
+/**
+ * Muestra un mensaje si no se realizó la transferencia
+ */
+    private void mostrarMensajeErrorAlTransferir() {
+        JOptionPane.showMessageDialog(this, "No fue posible transferir", "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
+
+    /**
+     * Llena la comboBox de las cuentas creadas por el usuario
+     */
     public void llenarCombo() {
         cbxCuenta.removeAllItems();
         try {
@@ -89,10 +107,10 @@ private final IConexionBD conexion;
                 }
             }
         } catch (PersistenciaException e) {
-       JOptionPane.showMessageDialog(this, e);
+            JOptionPane.showMessageDialog(this, e);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -257,9 +275,12 @@ private final IConexionBD conexion;
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+/**
+ * Botón para transferir el dinero de una cuenta a otra
+ * @param evt 
+ */
     private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
-       if (this.txtfDestino.getText().isEmpty() || this.txtfTransferir.getText().isEmpty()) {
+        if (this.txtfDestino.getText().isEmpty() || this.txtfTransferir.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Todos los campos tienen que ser llenados");
         } else {
             try {
@@ -269,29 +290,37 @@ private final IConexionBD conexion;
             }
         }
     }//GEN-LAST:event_btnTransferirActionPerformed
-
+/**
+ * ComboBox para seleccionar que cuenta le gustaría al usuario utilizar de entre sus cuentas creadas
+ * @param evt 
+ */
     private void cbxCuentaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxCuentaItemStateChanged
 //       if(evt.getStateChange()==ItemEvent.SELECTED){
 //           
 //       }
-        Cuenta cuenta = (Cuenta)cbxCuenta.getSelectedItem();
+        Cuenta cuenta = (Cuenta) cbxCuenta.getSelectedItem();
         System.out.println(cuenta);
-        if(cuenta != null){
+        if (cuenta != null) {
             lblSaldo.setText(String.valueOf(cuenta.getSaldo()));
         }
     }//GEN-LAST:event_cbxCuentaItemStateChanged
-
+/**
+ * Regresa al menú
+ * @param evt 
+ */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        MenuForm menu = new MenuForm(conexion,cliente);
+        MenuForm menu = new MenuForm(conexion, cliente);
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
-
+/**
+ * Cantidad de dinero a transferir
+ * @param evt 
+ */
     private void txtfTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfTransferirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtfTransferirActionPerformed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
