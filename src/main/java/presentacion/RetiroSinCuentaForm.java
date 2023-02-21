@@ -8,7 +8,7 @@ import interfaces.IConexionBD;
 
 /**
  *
- * @author JORGE
+ * @author Jorge Sánchez y Rosalía Pérez
  */
 public class RetiroSinCuentaForm extends javax.swing.JFrame {
 private final IConexionBD conexion;
@@ -40,20 +40,28 @@ private final IConexionBD conexion;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Retirar sin cuenta");
 
-        btnIngresar.setBackground(new java.awt.Color(231, 253, 218));
+        btnIngresar.setBackground(new java.awt.Color(191, 218, 220));
 
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(26, 51, 89));
         jLabel1.setText("Folio");
 
-        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(26, 51, 89));
         jLabel2.setText("Contraseña");
 
         txtfContraR.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
         txtfFolio.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
+        jButton1.setBackground(new java.awt.Color(218, 81, 85));
+        jButton1.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Ingresar");
 
+        btnRegresar.setBackground(new java.awt.Color(89, 164, 232));
+        btnRegresar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,27 +74,26 @@ private final IConexionBD conexion;
         btnIngresarLayout.setHorizontalGroup(
             btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btnIngresarLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(25, 25, 25)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRegresar)
+                .addGap(39, 39, 39))
+            .addGroup(btnIngresarLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(btnIngresarLayout.createSequentialGroup()
-                        .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtfContraR)
-                            .addComponent(txtfFolio, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
-                        .addContainerGap(48, Short.MAX_VALUE))
-                    .addGroup(btnIngresarLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRegresar)
-                        .addGap(21, 21, 21))))
+                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtfContraR)
+                    .addComponent(txtfFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         btnIngresarLayout.setVerticalGroup(
             btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btnIngresarLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(29, 29, 29)
                 .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtfFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -94,11 +101,11 @@ private final IConexionBD conexion;
                 .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtfContraR, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegresar))
-                .addGap(15, 15, 15))
+                .addGap(42, 42, 42)
+                .addGroup(btnIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
