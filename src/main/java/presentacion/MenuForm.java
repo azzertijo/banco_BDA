@@ -71,6 +71,7 @@ public class MenuForm extends javax.swing.JFrame {
         btnTransfer = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menú principal");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(187, 206, 207));

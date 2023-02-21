@@ -164,6 +164,7 @@ private Domicilio domicilio;
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Actualizar datos");
 
         jPanel1.setBackground(new java.awt.Color(198, 198, 221));
         jPanel1.setPreferredSize(new java.awt.Dimension(534, 489));

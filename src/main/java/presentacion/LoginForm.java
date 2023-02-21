@@ -113,7 +113,7 @@ public class LoginForm extends javax.swing.JFrame {
         lblContra.setText("Contraseña");
 
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(97, 97, 164));
+        jLabel1.setForeground(new java.awt.Color(64, 64, 133));
         jLabel1.setText("BANCO BDA");
 
         btnAcceder1.setBackground(new java.awt.Color(218, 81, 85));

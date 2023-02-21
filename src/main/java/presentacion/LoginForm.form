@@ -167,7 +167,7 @@
               <Font name="Tw Cen MT Condensed Extra Bold" size="48" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="a4" green="61" red="61" type="rgb"/>
+              <Color blue="85" green="40" red="40" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="BANCO BDA"/>
           </Properties>

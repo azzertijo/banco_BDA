@@ -38,15 +38,14 @@ private final IConexionBD conexion;
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Retirar sin cuenta");
 
         btnIngresar.setBackground(new java.awt.Color(231, 253, 218));
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Folio");
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Contraseña");
 
         txtfContraR.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N

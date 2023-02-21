@@ -24,7 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost/banco", "root", "adalgd123");
+        IConexionBD generadorConexiones = new ConexionBD("jdbc:mysql://localhost/banco", "root", "1234");
         IClientesDAO clientesDAO = new ClientesDAO(generadorConexiones);
         IDomicilioDAO domicilioDAO = new DomicilioDAO(generadorConexiones);
         ICuentasDAO cuentasDAO = new CuentasDAO(generadorConexiones);
